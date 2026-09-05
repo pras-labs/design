@@ -93,13 +93,10 @@ system's hairline-border language. No icon has been invented or hand-drawn here.
 ## Assets
 
 No logo was provided — the wordmark is set in type (`~/pras-labs` in JetBrains
-Mono) wherever a mark would normally go. The author headshot lives at
-`assets/pras.jpg` (user-provided) and is used in every bio block. No other
-visual assets (illustrations, diagrams-as-images) exist in this system; the
-brand is intentionally text/code-first.
+Mono) wherever a mark would normally go. No other visual assets (photos,
+illustrations) exist in this system; the brand is intentionally text/code-first.
 
 ## Notes / open questions for iteration
 
-- Headshot lives at `assets/pras.jpg` (user-provided) and is used in all bio blocks.
 - Tag taxonomy (kubernetes, gitops, networking, platform-engineering, etc.) was
   inferred from the brief — confirm the full list before wiring up a real tag index.
