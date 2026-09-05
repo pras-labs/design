@@ -1,7 +1,6 @@
 ---
 name: pras-labs-design
 description: Use this skill to generate well-branded interfaces and assets for Pras' Labs / The Hands-On Engineer (Prasetiyo Hadi Purwoko's platform-engineering blog and consulting site), either for production or throwaway prototypes/mocks/etc. Contains essential design guidelines, colors, type, fonts, and UI kit components for prototyping.
-user-invocable: true
 ---
 
 Read the README.md file within this skill, and explore the other available files.
