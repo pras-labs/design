@@ -1,23 +1,20 @@
-<!-- @dsCard group="Components" viewport="700x340" subtitle="Nav, post card, meta, author bio, CTA" name="Layout blocks" -->
+<!-- @dsCard group="Components" viewport="700x420" subtitle="Nav, post card, meta, author bio, CTA" name="Layout blocks" -->
 <html><head><link rel="stylesheet" href="../../styles.css"><style>
 body{background:var(--bg);padding:24px;color:var(--text-primary)}
-nav{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--border-hairline);margin-bottom:18px}
-.wordmark{font-family:var(--font-mono);font-weight:600;font-size:var(--text-sm)}
-.navlinks{display:flex;gap:24px;font-family:var(--font-heading);font-size:var(--text-sm)}
-.navlinks a{color:var(--text-secondary);text-decoration:none}
-.navlinks a.active{color:var(--text-primary);border-bottom:2px solid var(--accent);padding-bottom:4px}
+nav.pl-nav{margin-bottom:18px}
 .post{padding:16px 0;border-bottom:1px solid var(--border-hairline)}
 .post h3{font-family:var(--font-heading);font-size:var(--text-lg);margin:0 0 6px;font-weight:600}
 .post p{font-family:var(--font-body);color:var(--text-secondary);font-size:var(--text-sm);margin:0 0 10px;max-width:60ch}
 .meta{font-family:var(--font-heading);font-size:var(--text-xs);color:var(--text-tertiary);letter-spacing:.04em;text-transform:uppercase}
 .bio{display:flex;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--border-hairline);border-radius:var(--radius-md);margin-top:16px}
 .avatar{width:40px;height:40px;border-radius:999px;border:1px solid var(--accent-warm-border);object-fit:cover}
+.note{font-family:var(--font-heading);font-size:var(--text-xs);color:var(--text-secondary);margin:16px 0 0}
 </style></head><body>
-<nav><span class="wordmark"><span style="color:var(--accent)">~/</span>pras-labs</span>
-<div class="navlinks"><a class="active">Writing</a><a>About</a><a>Consulting</a></div></nav>
+<nav class="pl-nav"><a class="pl-wordmark" href="#"><span>~/</span>pras-labs</a>
+<div class="pl-nav-links"><a class="pl-nav-item" href="#" aria-current="page"><span>Writing</span></a><a class="pl-nav-item" href="#"><span>About</span></a><a class="pl-nav-item" href="#"><span>Consulting</span></a><button class="pl-nav-item" type="button"><span>Theme: Dark</span></button></div></nav>
 <div class="post">
   <h3>Reconciling drift across a 40-cluster GitOps fleet</h3>
-  <p>The cluster didn't page us because it failed — it paged us because it succeeded, quietly, at a scale our alerting never modeled.</p>
+  <p>The cluster didn't page us because it failed. It paged us because it succeeded, quietly, at a scale our alerting never modeled.</p>
   <span class="meta">Jul 18, 2026 · 11 min read</span>
 </div>
 <div class="bio"><img class="avatar" src="../../assets/pras.jpg" alt="Prasetiyo Hadi Purwoko">
@@ -25,4 +22,5 @@ nav{display:flex;justify-content:space-between;align-items:center;padding-bottom
   <div style="font-family:var(--font-heading);font-size:var(--text-xs);color:var(--accent-warm);text-transform:uppercase;margin:2px 0 6px">Platform & Infrastructure Architect</div>
   <div style="font-family:var(--font-body);font-size:var(--text-sm);color:var(--text-secondary)">Writing from Bandung about the systems I actually run.</div></div>
 </div>
+<p class="note">Sample text, not a published article.</p>
 </body></html>

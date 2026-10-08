@@ -1,29 +1,37 @@
 import React from 'react';
+import { getTheme, setTheme } from './theme.js';
 
-/** Nav — minimal top navigation. Stays out of the way of the reading column. */
+/**
+ * Nav: minimal top navigation. Stays out of the way of the reading column.
+ * Three links, the wordmark and one text button that switches the theme (the last item).
+ * Static, never sticky or fixed. If the row does not fit, the links wrap under the wordmark.
+ */
 export function Nav({ active = 'writing' }) {
   const items = [
     { key: 'writing', label: 'Writing', href: '/' },
     { key: 'about', label: 'About', href: '/about' },
     { key: 'consulting', label: 'Consulting', href: '/consulting' },
   ];
+  // Server render and first client render both show dark, then the effect reads the real theme.
+  const [theme, setThemeState] = React.useState('dark');
+  React.useEffect(() => { setThemeState(getTheme()); }, []);
+  const toggle = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    setThemeState(next);
+  };
   return (
-    <nav style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: 'var(--space-5) 0', borderBottom: '1px solid var(--border-hairline)',
-    }}>
-      <a href="/" style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--text-primary)', textDecoration: 'none' }}>
-        <span style={{ color: 'var(--accent)' }}>~/</span>pras-labs
-      </a>
-      <div style={{ display: 'flex', gap: 28 }}>
+    <nav className="pl-nav">
+      <a href="/" className="pl-wordmark"><span>~/</span>pras-labs</a>
+      <div className="pl-nav-links">
         {items.map((it) => (
-          <a key={it.key} href={it.href} style={{
-            fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 500,
-            color: active === it.key ? 'var(--text-primary)' : 'var(--text-secondary)',
-            textDecoration: 'none', borderBottom: active === it.key ? '2px solid var(--accent)' : '2px solid transparent',
-            paddingBottom: 4,
-          }}>{it.label}</a>
+          <a key={it.key} href={it.href} className="pl-nav-item" aria-current={active === it.key ? 'page' : undefined}>
+            <span>{it.label}</span>
+          </a>
         ))}
+        <button type="button" className="pl-nav-item" onClick={toggle}>
+          <span>Theme: {theme === 'dark' ? 'Dark' : 'Light'}</span>
+        </button>
       </div>
     </nav>
   );

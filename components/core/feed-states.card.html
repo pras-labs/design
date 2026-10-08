@@ -1,0 +1,18 @@
+<!-- @dsCard group="Components" viewport="700x520" subtitle="Loading, empty, filtered, error" name="Post feed states" -->
+<html><head><link rel="stylesheet" href="../../styles.css"><style>
+body{background:var(--bg);padding:24px;color:var(--text-primary)}
+.state{padding:var(--space-6) 0;border-bottom:1px solid var(--border-hairline);font-family:var(--font-heading);font-size:var(--text-sm);color:var(--text-primary)}
+.state p{margin:0 0 var(--space-3);max-width:62ch;line-height:var(--leading-body)}
+.state.error p{color:var(--danger)}
+.state .cap{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-tertiary);margin:0 0 var(--space-2)}
+.bars{display:grid;gap:var(--space-2);margin-bottom:var(--space-3)}
+.bars i{display:block;height:14px;border-radius:var(--radius-sm);background:var(--surface-2)}
+.btn{font-family:var(--font-heading);font-weight:600;border-radius:var(--radius-sm);border:1px solid transparent;padding:0 18px;min-height:var(--touch-target);align-items:center;font-size:var(--text-sm);display:inline-flex;background:transparent;cursor:pointer}
+.btn-ghost{color:var(--accent)}
+.btn-secondary{color:var(--text-primary);border-color:var(--border-control)}
+</style></head><body>
+<div class="state" role="status"><div class="bars"><i style="width:55%"></i><i style="width:90%"></i><i style="width:35%"></i></div><p>Loading posts</p></div>
+<div class="state"><p>No posts yet. New posts appear here when they are published.</p></div>
+<div class="state"><p>No posts tagged #gitops. Clear the filter to see all writing.</p><button class="btn btn-ghost" type="button">Clear filter</button></div>
+<div class="state error"><p>Could not load posts. Check your connection, then try again.</p><button class="btn btn-secondary" type="button">Try again</button></div>
+</body></html>

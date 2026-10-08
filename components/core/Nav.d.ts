@@ -1,6 +1,7 @@
 export interface NavProps {
   /** @default 'writing' */
   active?: 'writing' | 'about' | 'consulting';
+  // The theme button is built in: it reads and writes the theme through ./theme.js.
 }
 
 /**

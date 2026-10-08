@@ -2,6 +2,7 @@
 @import './tokens/colors.css';
 @import './tokens/typography.css';
 @import './tokens/spacing.css';
+@import './components/core/core.css';
 
 * { box-sizing: border-box; }
 html, body {
@@ -21,5 +22,16 @@ h1, h2, h3, h4 {
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-tight);
   margin: 0;
+  overflow-wrap: anywhere;
 }
 code, pre, kbd { font-family: var(--font-mono); }
+img { max-width: 100%; }
+
+/* Focus: every link, button and focusable region. Never remove an outline
+   without this replacement. */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}

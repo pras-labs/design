@@ -1,29 +1,46 @@
-/* Pras' Labs — color tokens. Dark mode is the default/primary experience. */
+/* Pras' Labs color tokens.
+ *
+ * Both themes are equals. Order of choice: the reader's stored choice (set as
+ * data-theme on <html>), then prefers-color-scheme, then dark.
+ *
+ * Dark values live on :root. Light values appear twice, once for readers whose
+ * OS asks for light and who have not chosen (no data-theme attribute), and once
+ * for an explicit choice. Keep the two light blocks identical. The selectors
+ * are not limited to :root, so a subtree can be themed too: <div data-theme="light">.
+ *
+ * Every text token passes 4.5:1 on the grounds named in its note, in both
+ * themes. Interactive boundaries (border-control, accent-border) pass 3:1.
+ * border-hairline, border-strong and code-border are decorative frames and do
+ * not; never use them as the only marker of a control. */
+
+/* ---- Dark (default) ---- */
 :root,
 [data-theme="dark"] {
-  /* Base surfaces — warm near-black, not pure black */
+  /* Base surfaces: warm near-black, not pure black */
   --bg: #15130F;
   --bg-raised: #1B1814;
   --surface: #201C17;
   --surface-hover: #29241D;
   --surface-2: #262019;
   --border: #37312723;
-  --border-hairline: #EDE6D91A;
-  --border-strong: #EDE6D933;
+  --border-hairline: #EDE6D91A;      /* section dividers, decorative */
+  --border-strong: #EDE6D933;        /* frames around cards and code, decorative */
+  --border-control: #EDE6D966;       /* boundary of anything you can click: 3.3:1 */
 
   /* Text */
   --text-primary: #EEE7DA;
   --text-secondary: #A79E8E;
-  --text-tertiary: #766D5F;
+  --text-tertiary: #8D8474;          /* 5.0:1 on bg, 4.6:1 on surface */
   --text-on-accent: #0B1210;
 
-  /* Accent — terminal prompt teal/electric blue */
+  /* Accent: terminal prompt teal. For things you can act on and the current state only. */
   --accent: #35D0C0;
   --accent-strong: #57E0D2;
   --accent-dim: #35D0C026;
-  --accent-border: #35D0C055;
+  --accent-border: #35D0C088;        /* clears 3:1 */
+  --focus-ring: var(--accent);       /* 2px solid, 2px offset, on :focus-visible */
 
-  /* Secondary accent — warm human touch (author notes, asides) */
+  /* Secondary accent: warm human touch (author notes, asides) */
   --accent-warm: #E0995B;
   --accent-warm-dim: #E0995B22;
   --accent-warm-border: #E0995B4D;
@@ -35,20 +52,21 @@
   --link: var(--accent);
   --link-hover: var(--accent-strong);
 
-  /* Code block */
-  --code-bg: #100F13;
-  --code-bg-inline: #221F2A;
-  --code-border: #33304099;
+  /* Code: four hues on warm neutrals (clay, olive, steel blue, ochre), no purple.
+     Every color is 4.5:1 or better on --code-bg. Comments are italic. */
+  --code-bg: #0E0C09;
+  --code-bg-inline: #28221A;
+  --code-border: #3B342999;
   --code-fg: #D7D3C9;
-  --code-keyword: #C6A0F6;
-  --code-string: #A6DA95;
-  --code-function: #8AADF4;
-  --code-comment: #6E6B7A;
-  --code-number: #EED49F;
-  --code-tag: #ED8796;
-  --code-punct: #8B8796;
+  --code-keyword: #D5908A;
+  --code-string: #AEBC86;
+  --code-function: #80B3CC;
+  --code-comment: #8D8474;
+  --code-number: #E3BE80;
+  --code-tag: #D5908A;
+  --code-punct: #A79E8E;
 
-  /* Elevation shadows — subtle, warm-tinted, dark UI */
+  /* Elevation shadows: subtle, warm-tinted */
   --shadow-sm: 0 1px 2px #00000066;
   --shadow-md: 0 4px 16px #00000080, 0 1px 2px #0000004d;
   --shadow-lg: 0 12px 40px #00000099;
@@ -56,6 +74,61 @@
   color-scheme: dark;
 }
 
+/* ---- Light, when the OS asks for it and the reader has not chosen ---- */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg: #FBF9F4;
+    --bg-raised: #F4F0E7;
+    --surface: #FFFFFF;
+    --surface-hover: #F1ECE1;
+    --surface-2: #F4F0E7;
+    --border: #1B18141F;
+    --border-hairline: #1B181414;
+    --border-strong: #1B181433;
+    --border-control: #1B18148C;       /* 3.8:1 */
+
+    --text-primary: #1C1A15;
+    --text-secondary: #625B4C;
+    --text-tertiary: #6F6757;          /* 5.3:1 on bg */
+    --text-on-accent: #FFFFFF;         /* 6.1:1 on accent */
+
+    --accent: #0B6F63;                 /* 5.8:1 on bg, used for text and fills alike */
+    --accent-strong: #084F47;
+    --accent-dim: #0B6F631A;
+    --accent-border: #0B6F63BB;
+    --focus-ring: var(--accent);
+
+    --accent-warm: #9C5A20;            /* 5.4:1 on bg */
+    --accent-warm-dim: #9C5A201A;
+    --accent-warm-border: #9C5A204D;
+
+    --success: #3F7A34;
+    --warning: #92661A;
+    --danger: #A23F2A;
+    --link: var(--accent);
+    --link-hover: var(--accent-strong);
+
+    --code-bg: #F4F1EC;
+    --code-bg-inline: #ECE7DC;
+    --code-border: #1B181422;
+    --code-fg: #2A281F;
+    --code-keyword: #9C433F;
+    --code-string: #546221;
+    --code-function: #056180;
+    --code-comment: #6F6757;
+    --code-number: #745519;
+    --code-tag: #9C433F;
+    --code-punct: #625B4C;
+
+    --shadow-sm: 0 1px 2px #1b18140f;
+    --shadow-md: 0 4px 16px #1b181414;
+    --shadow-lg: 0 12px 40px #1b18141f;
+
+    color-scheme: light;
+  }
+}
+
+/* ---- Light, chosen by the reader ---- */
 [data-theme="light"] {
   --bg: #FBF9F4;
   --bg-raised: #F4F0E7;
@@ -65,20 +138,22 @@
   --border: #1B18141F;
   --border-hairline: #1B181414;
   --border-strong: #1B181433;
+  --border-control: #1B18148C;
 
   --text-primary: #1C1A15;
   --text-secondary: #625B4C;
-  --text-tertiary: #8A8272;
-  --text-on-accent: #08110F;
+  --text-tertiary: #6F6757;
+  --text-on-accent: #FFFFFF;
 
-  --accent: #0E8C7D;
-  --accent-strong: #0B6F63;
-  --accent-dim: #0E8C7D1A;
-  --accent-border: #0E8C7D4D;
+  --accent: #0B6F63;
+  --accent-strong: #084F47;
+  --accent-dim: #0B6F631A;
+  --accent-border: #0B6F63BB;
+  --focus-ring: var(--accent);
 
-  --accent-warm: #B56A2E;
-  --accent-warm-dim: #B56A2E1A;
-  --accent-warm-border: #B56A2E4D;
+  --accent-warm: #9C5A20;
+  --accent-warm-dim: #9C5A201A;
+  --accent-warm-border: #9C5A204D;
 
   --success: #3F7A34;
   --warning: #92661A;
@@ -90,12 +165,12 @@
   --code-bg-inline: #ECE7DC;
   --code-border: #1B181422;
   --code-fg: #2A281F;
-  --code-keyword: #8047C2;
-  --code-string: #2E7D32;
-  --code-function: #2159C7;
-  --code-comment: #8A8272;
-  --code-number: #9A6A17;
-  --code-tag: #B5473A;
+  --code-keyword: #9C433F;
+  --code-string: #546221;
+  --code-function: #056180;
+  --code-comment: #6F6757;
+  --code-number: #745519;
+  --code-tag: #9C433F;
   --code-punct: #625B4C;
 
   --shadow-sm: 0 1px 2px #1b18140f;

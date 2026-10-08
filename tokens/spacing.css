@@ -14,6 +14,20 @@
   --content-width-wide: 1040px; /* diagrams, tables, architecture visuals */
   --page-max-width: 1280px;
 
+  /* Breakpoints sit where a layout rule changes, not at device widths.
+     CSS cannot read custom properties inside @media, so these are documented
+     values: repeat the literal px in the query and name the token in a comment.
+       bp-sm  480px  chosen: below it, page padding space-4, Nav gap space-3,
+                     section spacing one register down. With the real fonts the
+                     Nav row needs about 428px below it and 456px above it.
+       bp-md  748px  content-width + 2 x space-5. Below it the column fills the width.
+       bp-lg 1104px  content-width-wide + 2 x space-6. From it wide content is centered. */
+  --bp-sm: 480px;
+  --bp-md: 748px;
+  --bp-lg: 1104px;
+
+  --touch-target: 44px;     /* minimum hit area, both directions */
+
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;

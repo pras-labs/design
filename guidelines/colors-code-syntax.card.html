@@ -1,11 +1,11 @@
-<!-- @dsCard group="Colors" viewport="700x210" subtitle="Syntax highlight palette" name="Code syntax colors" -->
+<!-- @dsCard group="Colors" viewport="700x210" subtitle="Syntax highlight palette: four hues on warm neutrals" name="Code syntax colors" -->
 <html><head><link rel="stylesheet" href="../styles.css"><style>
 body{background:var(--code-bg);margin:0;padding:20px;font-family:var(--font-mono);font-size:var(--text-sm);color:var(--code-fg);border-radius:var(--radius-md)}
 </style></head><body>
-<div><span style="color:var(--code-comment)"># deploy.sh — reconcile drift before promote</span></div>
-<div><span style="color:var(--code-keyword)">function</span> <span style="color:var(--code-function)">reconcile_cluster</span>() {</div>
-<div>&nbsp;&nbsp;<span style="color:var(--code-keyword)">local</span> ctx=<span style="color:var(--code-string)">"prod-apse1"</span></div>
-<div>&nbsp;&nbsp;kubectl <span style="color:var(--code-tag)">--context</span>=$ctx apply -f <span style="color:var(--code-string)">./manifests</span> <span style="color:var(--code-punct)">\</span></div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;--replicas=<span style="color:var(--code-number)">3</span></div>
+<div><span class="tok-comment"># deploy.sh: reconcile drift before promote (sample)</span></div>
+<div><span class="tok-keyword">function</span> <span class="tok-function">reconcile_cluster</span>() {</div>
+<div>&nbsp;&nbsp;<span class="tok-keyword">local</span> ctx=<span class="tok-string">"prod-apse1"</span></div>
+<div>&nbsp;&nbsp;kubectl <span class="tok-tag">--context</span>=$ctx apply -f <span class="tok-string">./manifests</span> <span class="tok-punct">\</span></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;--replicas=<span class="tok-number">3</span></div>
 <div>}</div>
 </body></html>
