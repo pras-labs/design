@@ -2,7 +2,10 @@ export interface TagProps {
   children: React.ReactNode;
   /** @default false */
   active?: boolean;
+  /** Renders as <a>. When active it gets aria-current="true". */
   href?: string;
+  /** Renders as <button> with aria-pressed (a filter toggle). Takes precedence over href. */
+  onClick?: () => void;
 }
 
 /**

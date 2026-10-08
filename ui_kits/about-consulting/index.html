@@ -1,58 +1,69 @@
 <!-- @dsCard group="About" viewport="1040x900" subtitle="About + consulting, dark + light" name="About & consulting" -->
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>About — Pras' Labs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About | Pras' Labs</title>
+<script>try{var t=localStorage.getItem('pras-labs-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="stylesheet" href="../../styles.css">
 <style>
   body { margin: 0; }
-  .shell { max-width: var(--page-max-width); margin: 0 auto; padding: 0 var(--space-6); }
-  nav.top { display: flex; align-items: center; justify-content: space-between; padding: var(--space-5) 0; border-bottom: 1px solid var(--border-hairline); }
-  .wordmark { font-family: var(--font-mono); font-weight: 600; font-size: var(--text-sm); color: var(--text-primary); text-decoration: none; }
-  .navlinks { display: flex; gap: 28px; }
-  .navlinks a { font-family: var(--font-heading); font-size: var(--text-sm); font-weight: 500; color: var(--text-secondary); text-decoration: none; padding-bottom: 4px; border-bottom: 2px solid transparent; }
-  .navlinks a.active { color: var(--text-primary); border-color: var(--accent); }
-  .theme-toggle { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-tertiary); background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 6px 10px; cursor: pointer; }
+  /* Widths: bp-sm 480px, bp-md 748px, bp-lg 1104px (literal px, CSS cannot read custom properties in @media). */
+  .shell { max-width: var(--page-max-width); margin: 0 auto; padding: 0 var(--space-5); }
+  @media (max-width: 479.98px) { .shell { padding: 0 var(--space-4); } }
+  @media (min-width: 1104px) { .shell { padding: 0 var(--space-6); } }
+  .sample-note { max-width: var(--content-width); margin: 0 auto var(--space-8); padding-top: var(--space-4); border-top: 1px solid var(--border-hairline); font-family: var(--font-heading); font-size: var(--text-xs); color: var(--text-secondary); }
+  .btn { font-family: var(--font-heading); font-weight: 600; border-radius: var(--radius-sm); border: 1px solid transparent; padding: 0 18px; min-height: var(--touch-target); align-items: center; font-size: var(--text-sm); text-decoration: none; display: inline-flex; }
+  .btn-primary { background: var(--accent); color: var(--text-on-accent); }
+  .btn-primary:hover { background: var(--accent-strong); color: var(--text-on-accent); text-decoration: none; }
+  .btn-secondary { background: transparent; color: var(--text-primary); border-color: var(--border-control); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent-strong); text-decoration: none; }
+  .link-44 { display: inline-flex; align-items: center; min-height: var(--touch-target); }
 
   main { max-width: var(--content-width); margin: var(--space-8) auto var(--space-9); }
+  @media (max-width: 747.98px) { main { margin: var(--space-7) auto var(--space-7); } }
   .bio-full { display: flex; gap: 20px; align-items: flex-start; margin-bottom: var(--space-8); }
-  .avatar { width: 72px; height: 72px; border-radius: 999px; flex-shrink: 0; border: 1px solid var(--accent-warm-border); object-fit: cover; }
-  .bio-full h1 { font-family: var(--font-heading); font-size: var(--text-2xl); font-weight: 700; color: var(--text-primary); margin: 0 0 4px; }
+  @media (max-width: 479.98px) { .bio-full { flex-direction: column; margin-bottom: var(--space-7); } }
+  .avatar { width: 72px; height: 72px; border-radius: 999px; flex-shrink: 0; border: 1px solid var(--accent-warm-border); background: var(--surface-2); object-fit: cover; }
+  .bio-full h1 { font-family: var(--font-heading); font-size: var(--text-h2); font-weight: 700; color: var(--text-primary); margin: 0 0 4px; }
   .bio-full .role { font-family: var(--font-heading); font-size: var(--text-sm); color: var(--accent-warm); text-transform: uppercase; letter-spacing: var(--tracking-wide); margin-bottom: 10px; }
   .bio-full p { font-family: var(--font-body); font-size: var(--text-base); color: var(--text-secondary); line-height: var(--leading-body); margin: 0; max-width: 58ch; }
 
-  h2 { font-family: var(--font-heading); font-size: var(--text-xl); font-weight: 600; color: var(--text-primary); margin: 0 0 var(--space-4); }
+  h2 { font-family: var(--font-heading); font-size: var(--text-h3); font-weight: 600; color: var(--text-primary); margin: 0 0 var(--space-4); }
   p.body { font-family: var(--font-body); font-size: var(--text-base); line-height: var(--leading-body); color: var(--text-primary); margin: 0 0 var(--space-5); }
 
   .services { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-8); }
+  @media (max-width: 747.98px) { .services { grid-template-columns: 1fr; margin-bottom: var(--space-7); } }
   .service { border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: var(--space-5); background: var(--surface); }
-  .service .n { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--accent); margin-bottom: 8px; }
+  .service .n { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); margin-bottom: 8px; }
   .service h3 { font-family: var(--font-heading); font-size: var(--text-base); font-weight: 600; color: var(--text-primary); margin: 0 0 6px; }
   .service p { font-family: var(--font-body); font-size: var(--text-sm); color: var(--text-secondary); margin: 0; line-height: var(--leading-body); }
 
-  .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: var(--space-8); }
-  .stack .tag { font-family: var(--font-mono); font-size: var(--text-xs); padding: 4px 10px; border-radius: var(--radius-full); border: 1px solid var(--border-strong); color: var(--text-secondary); }
+  .stack { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-8); }
+  @media (max-width: 747.98px) { .stack { margin-bottom: var(--space-7); } }
+  .stack .tag { display: inline-flex; align-items: center; min-height: 32px; font-family: var(--font-mono); font-size: var(--text-xs); padding: 0 12px; border-radius: var(--radius-full); border: 1px solid var(--border-control); color: var(--text-secondary); }
 
   .cta { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between; padding: var(--space-6); border: 1px solid var(--accent-border); border-radius: var(--radius-md); background: var(--accent-dim); }
+  @media (max-width: 479.98px) { .cta { padding: var(--space-5); } }
   .cta h3 { font-family: var(--font-heading); font-weight: 600; font-size: var(--text-lg); color: var(--text-primary); margin: 0 0 6px; }
   .cta p { font-family: var(--font-body); font-size: var(--text-sm); color: var(--text-secondary); margin: 0; max-width: 44ch; }
-  .cta a.btn { font-family: var(--font-heading); font-weight: 600; font-size: var(--text-sm); color: var(--text-on-accent); background: var(--accent); padding: 10px 18px; border-radius: var(--radius-sm); text-decoration: none; white-space: nowrap; }
+  .cta a.btn { white-space: nowrap; }
 
-  .contact { margin-top: var(--space-6); font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-secondary); }
-  .contact a { color: var(--accent); }
+  .contact a { display: inline-flex; align-items: center; min-height: var(--touch-target); }
+  .contact { margin-top: var(--space-6); font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-secondary); overflow-wrap: anywhere; }
 </style>
 </head>
 <body>
 <div class="shell">
-  <nav class="top">
-    <a class="wordmark" href="#"><span style="color:var(--accent)">~/</span>pras-labs</a>
-    <div class="navlinks">
-      <a href="#">Writing</a>
-      <a class="active" href="#">About</a>
-      <a href="#">Consulting</a>
+  <nav class="pl-nav">
+    <a class="pl-wordmark" href="#"><span>~/</span>pras-labs</a>
+    <div class="pl-nav-links">
+      <a class="pl-nav-item" href="#"><span>Writing</span></a>
+      <a class="pl-nav-item" aria-current="page" href="#"><span>About</span></a>
+      <a class="pl-nav-item" href="#"><span>Consulting</span></a>
+      <button class="pl-nav-item" id="theme-toggle" type="button"><span>Theme: Dark</span></button>
     </div>
-    <button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme==='dark'?'light':'dark'">toggle theme</button>
   </nav>
 
   <main>
@@ -61,18 +72,18 @@
       <div>
         <h1>Prasetiyo Hadi Purwoko</h1>
         <div class="role">Platform & Infrastructure Architect</div>
-        <p>Based in Bandung, Indonesia. I design and operate platform infrastructure — Kubernetes fleets, GitOps pipelines, and the network layer underneath them — and write about what actually happens when those systems meet production.</p>
+        <p>Based in Bandung, Indonesia. I design and operate platform infrastructure (Kubernetes fleets, GitOps pipelines, and the network layer underneath them) and write about what actually happens when those systems meet production.</p>
       </div>
     </div>
 
     <h2>Background</h2>
-    <p class="body">I've spent the last decade building and operating infrastructure platforms for teams that can't afford downtime — most recently leading platform architecture for a multi-region Kubernetes fleet spanning three cloud providers. Pras' Labs is where I write up what that work actually teaches, without the marketing gloss.</p>
+    <p class="body">I've spent the last decade building and operating infrastructure platforms for teams that can't afford downtime, most recently leading platform architecture for a multi-region Kubernetes fleet spanning three cloud providers. Pras' Labs is where I write up what that work actually teaches, without the marketing gloss.</p>
 
     <h2>Consulting</h2>
-    <p class="body">I take on a small number of engagements each quarter — platform architecture review, GitOps migration, incident-response process design. If your team is past the "getting started" stage and into "why does this keep happening at 3am," that's the work I do.</p>
+    <p class="body">I take on a small number of engagements each quarter: platform architecture review, GitOps migration, incident-response process design. If your team is past the "getting started" stage and into "why does this keep happening at 3am," that's the work I do.</p>
 
     <div class="services">
-      <div class="service"><div class="n">01</div><h3>Platform architecture review</h3><p>A structured audit of your Kubernetes/GitOps setup — where drift accumulates, where alerting is blind.</p></div>
+      <div class="service"><div class="n">01</div><h3>Platform architecture review</h3><p>A structured audit of your Kubernetes/GitOps setup: where drift accumulates, where alerting is blind.</p></div>
       <div class="service"><div class="n">02</div><h3>GitOps migration</h3><p>Moving a fleet from manual ops to reconciled, auditable, git-driven deployment.</p></div>
       <div class="service"><div class="n">03</div><h3>Incident-response design</h3><p>Postmortem process, paging taxonomy, and the org habits that make both stick.</p></div>
       <div class="service"><div class="n">04</div><h3>Technical writing</h3><p>Internal runbooks and architecture docs written by someone who's operated the system.</p></div>
@@ -87,11 +98,30 @@
         <h3>Have a project in mind?</h3>
         <p>I respond to every inquiry personally, usually within two business days.</p>
       </div>
-      <a class="btn" href="#">Get in touch →</a>
+      <a class="btn btn-primary" href="#">Get in touch</a>
     </div>
 
     <div class="contact">contact: <a href="#">hello@pras.my.id</a> · Bandung, Indonesia (UTC+7)</div>
   </main>
+  <p class="sample-note">Sample content for layout only. The background, availability and response-time statements above are placeholders, not current facts. Replace them with wording that is true on the day you publish.</p>
 </div>
+<script>
+(function () {
+  var b = document.getElementById('theme-toggle');
+  function cur() {
+    var d = document.documentElement.getAttribute('data-theme');
+    if (d) return d;
+    try { return matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (e) { return 'dark'; }
+  }
+  function paint() { b.firstElementChild.textContent = 'Theme: ' + (cur() === 'dark' ? 'Dark' : 'Light'); }
+  paint();
+  b.addEventListener('click', function () {
+    var n = cur() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', n);
+    try { localStorage.setItem('pras-labs-theme', n); } catch (e) { /* storage unavailable */ }
+    paint();
+  });
+})();
+</script>
 </body>
 </html>

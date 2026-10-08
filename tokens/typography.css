@@ -1,15 +1,25 @@
 :root {
-  /* Type scale — content is dense/technical, hierarchy carries weight */
-  --text-xs: 0.8125rem;   /* 13px — metadata, captions, tags */
-  --text-sm: 0.875rem;    /* 14px — nav, labels */
-  --text-base: 1.0625rem; /* 17px — long-form body */
-  --text-md: 1.1875rem;   /* 19px — lede paragraphs */
-  --text-lg: 1.375rem;    /* 22px — subheads */
-  --text-xl: 1.75rem;     /* 28px — H3 */
-  --text-2xl: 2.25rem;    /* 36px — H2 */
-  --text-3xl: 3rem;       /* 48px — H1 */
-  --text-4xl: 4rem;       /* 64px — hero */
-  --text-5xl: 5rem;       /* 80px — hero, large viewports */
+  /* Type scale: content is dense/technical, hierarchy carries weight */
+  --text-xs: 0.8125rem;   /* 13px: metadata, captions, tags */
+  --text-sm: 0.875rem;    /* 14px: nav, labels */
+  --text-base: 1.0625rem; /* 17px: long-form body */
+  --text-md: 1.1875rem;   /* 19px: lede paragraphs */
+  --text-lg: 1.375rem;    /* 22px: subheads */
+  --text-xl: 1.75rem;     /* 28px: H3 */
+  --text-2xl: 2.25rem;    /* 36px: H2 */
+  --text-3xl: 3rem;       /* 48px: H1 */
+  --text-4xl: 4rem;       /* 64px: hero */
+  --text-5xl: 5rem;       /* 80px: hero, large viewports */
+
+  /* Fluid display sizes (px divided by 16, so the reader's font-size setting applies).
+     Body does not shrink: --text-base stays 17px at every width, and never below 16px.
+     Above values are the desktop sizes; use these four for headings. */
+  --text-hero: clamp(2.5rem, 6vw + 1rem, 5rem);          /* 40px to 80px */
+  --text-h1: clamp(2rem, 3vw + 1.25rem, 3rem);           /* 32px to 48px */
+  --text-h2: clamp(1.625rem, 2vw + 1.125rem, 2.25rem);   /* 26px to 36px */
+  --text-h3: clamp(1.375rem, 1vw + 1.125rem, 1.75rem);   /* 22px to 28px */
+  /* Lede: 18px below bp-sm (480px), --text-md (19px) above. */
+  --text-lede-sm: 1.125rem;
 
   --leading-tight: 1.15;
   --leading-snug: 1.35;

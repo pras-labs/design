@@ -1,0 +1,16 @@
+<!-- @dsCard group="Colors" viewport="700x230" subtitle="Decorative frames, control boundaries, focus ring" name="Borders and focus" -->
+<html><head><link rel="stylesheet" href="../styles.css"><style>
+body{background:var(--bg);padding:24px;font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-secondary)}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.cell{flex:1;min-width:140px}
+.box{height:56px;border-radius:var(--radius-sm);margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:var(--text-sm);color:var(--text-primary)}
+.cap{margin:0;line-height:1.5}
+</style></head><body>
+<div class="row">
+  <div class="cell"><div class="box" style="border:1px solid var(--border-hairline)">frame</div><p class="cap">--border-hairline: dividers. Decorative.</p></div>
+  <div class="cell"><div class="box" style="border:1px solid var(--border-strong)">frame</div><p class="cap">--border-strong: frames around cards and code. Decorative.</p></div>
+  <div class="cell"><div class="box" style="border:1px solid var(--border-control)">control</div><p class="cap">--border-control: boundary of anything you can click. 3:1 or better.</p></div>
+  <div class="cell"><div class="box" style="border:1px solid var(--accent-border);background:var(--accent-dim);color:var(--accent)">active</div><p class="cap">--accent-border: selected state.</p></div>
+  <div class="cell"><div class="box" style="border:1px solid var(--border-control);outline:2px solid var(--focus-ring);outline-offset:2px">focus</div><p class="cap">--focus-ring: 2px solid, 2px offset, on :focus-visible.</p></div>
+</div>
+</body></html>
