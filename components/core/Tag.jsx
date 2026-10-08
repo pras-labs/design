@@ -14,22 +14,20 @@ export function Tag({ children, active = false, href, onClick }) {
     minHeight: 32,
     fontFamily: 'var(--font-mono)',
     fontSize: 'var(--text-xs)',
-    fontWeight: active ? 600 : 400,
     letterSpacing: 'var(--tracking-normal)',
     padding: '0 12px',
     borderRadius: 'var(--radius-full)',
-    border: `1px solid ${active ? 'var(--accent-border)' : 'var(--border-control)'}`,
-    background: active ? 'var(--accent-dim)' : 'transparent',
-    color: active ? 'var(--accent)' : 'var(--text-secondary)',
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     cursor: href || onClick ? 'pointer' : undefined,
   };
+  // Colors, the selected look and the hover/press shift live in core.css.
+  const cls = `pl-tag${active ? ' pl-tag--active' : ''}${href || onClick ? ' pl-tag--interactive' : ''}`;
   if (onClick) {
-    return <button type="button" onClick={onClick} aria-pressed={active} data-hit="" style={style}>{children}</button>;
+    return <button type="button" onClick={onClick} aria-pressed={active} data-hit="" className={cls} style={style}>{children}</button>;
   }
   if (href) {
-    return <a href={href} aria-current={active ? 'true' : undefined} data-hit="" style={style}>{children}</a>;
+    return <a href={href} aria-current={active ? 'true' : undefined} data-hit="" className={cls} style={style}>{children}</a>;
   }
-  return <span style={style}>{children}</span>;
+  return <span className={cls} style={style}>{children}</span>;
 }
