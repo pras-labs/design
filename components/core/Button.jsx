@@ -3,6 +3,7 @@ import React from 'react';
 /**
  * Button: primary CTA, secondary outline, and ghost text variants.
  * Terminal-adjacent: no gradients, no shadows on hover, just color + border shifts.
+ * Variant colors and the hover/press shift live in core.css (inline styles cannot express :hover).
  *
  * Targets: md is 44px tall. sm is 32px tall with a 44px hit area (see core.css, [data-hit]).
  * States: disabled (aria-disabled, never navigates) and loading (label swaps to the
@@ -23,16 +24,12 @@ export function Button({
     fontFamily: 'var(--font-heading)',
     fontWeight: 600,
     borderRadius: 'var(--radius-sm)',
-    border: '1px solid transparent',
+    borderWidth: 1,
+    borderStyle: 'solid',
     cursor: 'pointer',
     transition: 'background var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard)',
     textDecoration: 'none',
     ...sizes[size],
-  };
-  const variants = {
-    primary: { background: 'var(--accent)', color: 'var(--text-on-accent)' },
-    secondary: { background: 'transparent', color: 'var(--text-primary)', borderColor: 'var(--border-control)' },
-    ghost: { background: 'transparent', color: 'var(--accent)' },
   };
   const blocked = disabled || loading;
   // Disabled and loading look the same: surface-2 fill, text-secondary label (6.1:1 dark, 5.9:1 light), no border.
@@ -54,7 +51,8 @@ export function Button({
       aria-disabled={blocked ? 'true' : undefined}
       aria-busy={loading ? 'true' : undefined}
       onClick={blocked ? (e) => e.preventDefault() : onClick}
-      style={{ ...base, ...variants[variant], ...(blocked ? blockedStyle : null) }}
+      className={`pl-btn pl-btn--${variant}`}
+      style={{ ...base, ...(blocked ? blockedStyle : null) }}
     >
       {icon}{label}
     </Tag>

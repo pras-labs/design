@@ -6,11 +6,11 @@ import React from 'react';
  */
 export function PostCard({ title, excerpt, date, readTime, tags = [] }) {
   return (
-    <a href="#" style={{
+    <a href="#" className="pl-post" style={{
       display: 'block', padding: 'var(--space-6) 0', borderBottom: '1px solid var(--border-hairline)',
       textDecoration: 'none', color: 'inherit',
     }}>
-      <div style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-h3)', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 8, letterSpacing: 'var(--tracking-tight)', overflowWrap: 'anywhere' }}>
+      <div className="pl-post-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-h3)', fontWeight: 600, marginBottom: 8, letterSpacing: 'var(--tracking-tight)', overflowWrap: 'anywhere' }}>
         {title}
       </div>
       <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--text-secondary)', lineHeight: 'var(--leading-body)', margin: '0 0 14px', maxWidth: '62ch' }}>

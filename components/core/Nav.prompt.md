@@ -4,4 +4,4 @@ Nav: three links (Writing / About / Consulting), a terminal-style wordmark and o
 <Nav active="writing" />
 ```
 
-Static, never sticky or fixed. Every item is at least 44px tall and wide. The current page has `aria-current="page"`. If the row does not fit it wraps under the wordmark, and the link group wraps too; with the real fonts the row is one line from about 428px up. No hamburger. The theme button reads and stores the choice through `theme.js`; put `themeInitScript` inline in `<head>` so there is no flash.
+Static, never sticky or fixed. Every item is at least 44px tall and wide. The current page has `aria-current="page"`. If the row does not fit it wraps under the wordmark, and the link group wraps too; with the real fonts the row is one line from about 428px up. No hamburger. The `<nav>` is labeled "Main". The theme button shows the current theme ("Theme: Dark") and its accessible name adds the action ("Theme: Dark. Switch to light."); the visible text stays at the start of the name. It reads and stores the choice through `theme.js`; put `themeInitScript` inline in `<head>` so there is no flash.

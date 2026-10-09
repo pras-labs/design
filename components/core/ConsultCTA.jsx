@@ -13,10 +13,10 @@ export function ConsultCTA({ heading = 'Working on something similar?', body, bu
         <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 'var(--text-lg)', color: 'var(--text-primary)', marginBottom: 6 }}>{heading}</div>
         {body && <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', margin: 0, lineHeight: 'var(--leading-body)' }}>{body}</p>}
       </div>
-      <a href={href} style={{
+      <a href={href} className="pl-cta-link" style={{
         display: 'inline-flex', alignItems: 'center', minHeight: 'var(--touch-target)',
         fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 'var(--text-sm)',
-        color: 'var(--accent)', border: '1px solid var(--accent-border)', padding: '0 18px',
+        padding: '0 18px',
         borderRadius: 'var(--radius-sm)', textDecoration: 'none', whiteSpace: 'nowrap',
       }}>{buttonLabel}</a>
     </div>

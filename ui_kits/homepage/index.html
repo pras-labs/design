@@ -38,6 +38,9 @@
 
   .post { display: block; padding: var(--space-6) 0; border-bottom: 1px solid var(--border-hairline); text-decoration: none; color: inherit; }
   .post:hover { text-decoration: none; color: inherit; }
+  .post h3 { transition: color var(--duration-fast) var(--ease-standard); }
+  .post:active h3 { color: var(--accent-strong); }
+  @media (hover: hover) { .post:hover h3 { color: var(--accent-strong); } }
   .post h3 { font-family: var(--font-heading); font-size: var(--text-h3); font-weight: 600; color: var(--text-primary); margin: 0 0 8px; letter-spacing: var(--tracking-tight); }
   .post p { font-family: var(--font-body); font-size: var(--text-base); color: var(--text-secondary); line-height: var(--leading-body); margin: 0 0 14px; max-width: 62ch; }
   .post .meta { display: flex; gap: 4px 12px; align-items: center; flex-wrap: wrap; }
@@ -49,16 +52,17 @@
 </head>
 <body>
 <div class="shell">
-  <nav class="pl-nav">
+  <nav class="pl-nav" aria-label="Main">
     <a class="pl-wordmark" href="#"><span>~/</span>pras-labs</a>
     <div class="pl-nav-links">
       <a class="pl-nav-item" aria-current="page" href="#"><span>Writing</span></a>
       <a class="pl-nav-item" href="#"><span>About</span></a>
       <a class="pl-nav-item" href="#"><span>Consulting</span></a>
-      <button class="pl-nav-item" id="theme-toggle" type="button"><span>Theme: Dark</span></button>
+      <button class="pl-nav-item pl-theme-toggle" id="theme-toggle" type="button"><span>Theme: Dark</span></button>
     </div>
   </nav>
 
+  <main>
   <div class="hero">
     <!-- The one decorative element: a terminal prompt that tells an engineer reader this is written by someone who works in terminals.
          The cursor blinks three times, then stays solid, and never blinks under prefers-reduced-motion. -->
@@ -92,7 +96,8 @@
   </section>
 
   <div class="tagline-strip">practitioner-grade infrastructure writing: no vendor pitches, no hypotheticals</div>
-  <p class="sample-note">Sample content for layout only. The posts, dates, read times and tags above are placeholders, not published articles.</p>
+  </main>
+  <footer class="sample-note">Sample content for layout only. The posts, dates, read times and tags above are placeholders, not published articles.</footer>
 </div>
 <script>
 (function () {
@@ -102,7 +107,11 @@
     if (d) return d;
     try { return matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (e) { return 'dark'; }
   }
-  function paint() { b.firstElementChild.textContent = 'Theme: ' + (cur() === 'dark' ? 'Dark' : 'Light'); }
+  function paint() {
+    var dark = cur() === 'dark';
+    b.firstElementChild.textContent = 'Theme: ' + (dark ? 'Dark' : 'Light');
+    b.setAttribute('aria-label', 'Theme: ' + (dark ? 'Dark' : 'Light') + '. Switch to ' + (dark ? 'light' : 'dark') + '.');
+  }
   paint();
   b.addEventListener('click', function () {
     var n = cur() === 'dark' ? 'light' : 'dark';

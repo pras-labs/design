@@ -30,7 +30,7 @@
   /* Text */
   --text-primary: #EEE7DA;
   --text-secondary: #A79E8E;
-  --text-tertiary: #8D8474;          /* 5.0:1 on bg, 4.6:1 on surface */
+  --text-tertiary: #8D8474;          /* 5.0:1 on bg, 4.6:1 on surface. Not for surface-hover or surface-2 (4.2 and 4.4:1) */
   --text-on-accent: #0B1210;
 
   /* Accent: terminal prompt teal. For things you can act on and the current state only. */
@@ -98,9 +98,9 @@
     --accent-border: #0B6F63BB;
     --focus-ring: var(--accent);
 
-    --accent-warm: #9C5A20;            /* 5.4:1 on bg */
-    --accent-warm-dim: #9C5A201A;
-    --accent-warm-border: #9C5A204D;
+    --accent-warm: #925320;            /* 5.7:1 on bg, 5.0:1 on its own tint */
+    --accent-warm-dim: #9253201A;
+    --accent-warm-border: #9253204D;
 
     --success: #3F7A34;
     --warning: #92661A;
@@ -151,9 +151,9 @@
   --accent-border: #0B6F63BB;
   --focus-ring: var(--accent);
 
-  --accent-warm: #9C5A20;
-  --accent-warm-dim: #9C5A201A;
-  --accent-warm-border: #9C5A204D;
+  --accent-warm: #925320;
+  --accent-warm-dim: #9253201A;
+  --accent-warm-border: #9253204D;
 
   --success: #3F7A34;
   --warning: #92661A;
@@ -178,4 +178,60 @@
   --shadow-lg: 0 12px 40px #1b18141f;
 
   color-scheme: light;
+}
+
+/* ---- Print: always the light tokens, whatever the screen theme ---- */
+@media print {
+  :root,
+  [data-theme="dark"],
+  [data-theme="light"] {
+    --bg: #FBF9F4;
+    --bg-raised: #F4F0E7;
+    --surface: #FFFFFF;
+    --surface-hover: #F1ECE1;
+    --surface-2: #F4F0E7;
+    --border: #1B18141F;
+    --border-hairline: #1B181414;
+    --border-strong: #1B181433;
+    --border-control: #1B18148C;
+
+    --text-primary: #1C1A15;
+    --text-secondary: #625B4C;
+    --text-tertiary: #6F6757;
+    --text-on-accent: #FFFFFF;
+
+    --accent: #0B6F63;
+    --accent-strong: #084F47;
+    --accent-dim: #0B6F631A;
+    --accent-border: #0B6F63BB;
+    --focus-ring: var(--accent);
+
+    --accent-warm: #925320;
+    --accent-warm-dim: #9253201A;
+    --accent-warm-border: #9253204D;
+
+    --success: #3F7A34;
+    --warning: #92661A;
+    --danger: #A23F2A;
+    --link: var(--accent);
+    --link-hover: var(--accent-strong);
+
+    --code-bg: #F4F1EC;
+    --code-bg-inline: #ECE7DC;
+    --code-border: #1B181422;
+    --code-fg: #2A281F;
+    --code-keyword: #9C433F;
+    --code-string: #546221;
+    --code-function: #056180;
+    --code-comment: #6F6757;
+    --code-number: #745519;
+    --code-tag: #9C433F;
+    --code-punct: #625B4C;
+
+    --shadow-sm: 0 1px 2px #1b18140f;
+    --shadow-md: 0 4px 16px #1b181414;
+    --shadow-lg: 0 12px 40px #1b18141f;
+
+    color-scheme: light;
+  }
 }

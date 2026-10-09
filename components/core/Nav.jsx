@@ -21,7 +21,7 @@ export function Nav({ active = 'writing' }) {
     setThemeState(next);
   };
   return (
-    <nav className="pl-nav">
+    <nav className="pl-nav" aria-label="Main">
       <a href="/" className="pl-wordmark"><span>~/</span>pras-labs</a>
       <div className="pl-nav-links">
         {items.map((it) => (
@@ -29,7 +29,12 @@ export function Nav({ active = 'writing' }) {
             <span>{it.label}</span>
           </a>
         ))}
-        <button type="button" className="pl-nav-item" onClick={toggle}>
+        <button
+          type="button"
+          className="pl-nav-item pl-theme-toggle"
+          onClick={toggle}
+          aria-label={`Theme: ${theme === 'dark' ? 'Dark' : 'Light'}. Switch to ${theme === 'dark' ? 'light' : 'dark'}.`}
+        >
           <span>Theme: {theme === 'dark' ? 'Dark' : 'Light'}</span>
         </button>
       </div>

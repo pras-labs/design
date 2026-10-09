@@ -83,6 +83,44 @@
   .pl-cta { padding: var(--space-5); }
 }
 
+/* Variants, selected state and the hover/press shift. Press shows the same shift
+   as hover. :hover is limited to devices that can hover, so a tap never leaves a
+   sticky hover color behind. Nothing here is revealed or opened by hover. */
+.pl-btn { border-color: transparent; }
+.pl-btn:hover { text-decoration: none; }
+.pl-btn--primary { background: var(--accent); color: var(--text-on-accent); }
+.pl-btn--secondary { background: transparent; color: var(--text-primary); border-color: var(--border-control); }
+.pl-btn--ghost { background: transparent; color: var(--accent); }
+
+.pl-tag { border: 1px solid var(--border-control); background: transparent; color: var(--text-secondary); font-weight: var(--weight-regular); }
+.pl-tag--active { border-color: var(--accent-border); background: var(--accent-dim); color: var(--accent); font-weight: var(--weight-semibold); }
+.pl-tag:hover { text-decoration: none; }
+
+.pl-cta-link { color: var(--accent); border: 1px solid var(--accent-border); transition: color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
+.pl-cta-link:hover { text-decoration: none; }
+
+.pl-post-title { color: var(--text-primary); transition: color var(--duration-fast) var(--ease-standard); }
+
+.pl-btn--primary:not([aria-disabled="true"]):active { background: var(--accent-strong); }
+.pl-btn--secondary:not([aria-disabled="true"]):active { border-color: var(--accent); color: var(--accent-strong); }
+.pl-btn--ghost:not([aria-disabled="true"]):active { color: var(--accent-strong); }
+.pl-tag--interactive:active { color: var(--accent-strong); border-color: var(--accent-border); }
+.pl-cta-link:active { color: var(--accent-strong); border-color: var(--accent); }
+.pl-post:active .pl-post-title { color: var(--accent-strong); }
+@media (hover: hover) {
+  .pl-btn--primary:not([aria-disabled="true"]):hover { background: var(--accent-strong); }
+  .pl-btn--secondary:not([aria-disabled="true"]):hover { border-color: var(--accent); color: var(--accent-strong); }
+  .pl-btn--ghost:not([aria-disabled="true"]):hover { color: var(--accent-strong); }
+  .pl-tag--interactive:hover { color: var(--accent-strong); border-color: var(--accent-border); }
+  .pl-cta-link:hover { color: var(--accent-strong); border-color: var(--accent); }
+  .pl-post:hover .pl-post-title { color: var(--accent-strong); }
+}
+
+/* Print: the theme switch has no use on paper. */
+@media print {
+  .pl-theme-toggle { display: none; }
+}
+
 /* Hero cursor: blinks three times, then stays solid. Never blinks under
    prefers-reduced-motion. The one exception to the color-only motion rule. */
 @keyframes blink { 50% { opacity: 0; } }

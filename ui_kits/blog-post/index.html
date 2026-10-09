@@ -64,7 +64,7 @@
 
   .cta { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between; margin: var(--space-8) 0; padding: var(--space-6); border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--bg-raised); }
   @media (max-width: 479.98px) { .cta { padding: var(--space-5); } }
-  .cta h4 { font-family: var(--font-heading); font-weight: 600; font-size: var(--text-lg); color: var(--text-primary); margin: 0 0 6px; }
+  .cta h3 { font-family: var(--font-heading); font-weight: 600; font-size: var(--text-lg); color: var(--text-primary); margin: 0 0 6px; }
   .cta p { font-family: var(--font-body); font-size: var(--text-sm); color: var(--text-secondary); margin: 0; max-width: 46ch; }
   .cta a.btn { color: var(--accent); border: 1px solid var(--accent-border); white-space: nowrap; }
   .cta a.btn:hover { color: var(--accent-strong); text-decoration: none; }
@@ -74,16 +74,17 @@
 </head>
 <body>
 <div class="shell">
-  <nav class="pl-nav">
+  <nav class="pl-nav" aria-label="Main">
     <a class="pl-wordmark" href="#"><span>~/</span>pras-labs</a>
     <div class="pl-nav-links">
       <a class="pl-nav-item" aria-current="page" href="#"><span>Writing</span></a>
       <a class="pl-nav-item" href="#"><span>About</span></a>
       <a class="pl-nav-item" href="#"><span>Consulting</span></a>
-      <button class="pl-nav-item" id="theme-toggle" type="button"><span>Theme: Dark</span></button>
+      <button class="pl-nav-item pl-theme-toggle" id="theme-toggle" type="button"><span>Theme: Dark</span></button>
     </div>
   </nav>
 
+  <main>
   <article>
     <div class="tag-row">
       <a class="tag" href="#" data-hit>gitops</a>
@@ -131,7 +132,7 @@ if resp.StatusCode == <span class="tok-number">429</span> {
 
     <div class="cta">
       <div>
-        <h4>Running a GitOps fleet at similar scale?</h4>
+        <h3>Running a GitOps fleet at similar scale?</h3>
         <p>I take on a small number of platform-architecture engagements each quarter.</p>
       </div>
       <a class="btn" href="#">Discuss a project</a>
@@ -153,7 +154,8 @@ if resp.StatusCode == <span class="tok-number">429</span> {
       <a class="tag" href="#" data-hit>incident-review</a>
     </footer>
   </article>
-  <p class="sample-note">Sample content for layout only. The article, its figures, the availability line and the bio are placeholders, not published facts or a current availability claim.</p>
+  </main>
+  <footer class="sample-note">Sample content for layout only. The article, its figures, the availability line and the bio are placeholders, not published facts or a current availability claim.</footer>
 </div>
 <script>
 (function () {
@@ -163,7 +165,11 @@ if resp.StatusCode == <span class="tok-number">429</span> {
     if (d) return d;
     try { return matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (e) { return 'dark'; }
   }
-  function paint() { b.firstElementChild.textContent = 'Theme: ' + (cur() === 'dark' ? 'Dark' : 'Light'); }
+  function paint() {
+    var dark = cur() === 'dark';
+    b.firstElementChild.textContent = 'Theme: ' + (dark ? 'Dark' : 'Light');
+    b.setAttribute('aria-label', 'Theme: ' + (dark ? 'Dark' : 'Light') + '. Switch to ' + (dark ? 'light' : 'dark') + '.');
+  }
   paint();
   b.addEventListener('click', function () {
     var n = cur() === 'dark' ? 'light' : 'dark';
