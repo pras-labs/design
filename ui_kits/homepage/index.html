@@ -54,11 +54,11 @@
 <div class="shell">
   <nav class="pl-nav" aria-label="Main">
     <a class="pl-wordmark" href="#"><span>~/</span>pras-labs</a>
+    <form class="pl-search" role="search" action="/search" method="get"><input class="pl-field" type="search" name="q" placeholder="Search" aria-label="Search the writing" autocomplete="off" enterkeyhint="search"></form>
     <div class="pl-nav-links">
       <a class="pl-nav-item" aria-current="page" href="#"><span>Writing</span></a>
       <a class="pl-nav-item" href="#"><span>About</span></a>
       <a class="pl-nav-item" href="#"><span>Consulting</span></a>
-      <a class="pl-nav-item" href="#"><span>Search</span></a>
       <button class="pl-nav-item pl-theme-toggle" id="theme-toggle" type="button"><span>Theme: Dark</span></button>
     </div>
   </nav>
@@ -102,6 +102,7 @@
 </div>
 <script>
 (function () {
+  document.querySelectorAll('.pl-search .pl-field').forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Escape') i.blur(); }); });
   var b = document.getElementById('theme-toggle');
   function cur() {
     var d = document.documentElement.getAttribute('data-theme');

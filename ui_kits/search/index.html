@@ -14,18 +14,10 @@
   @media (max-width: 479.98px) { .shell { padding: 0 var(--space-4); } }
   @media (min-width: 1104px) { .shell { padding: 0 var(--space-6); } }
   .sample-note { max-width: var(--content-width); margin: 0 auto var(--space-8); padding-top: var(--space-4); border-top: 1px solid var(--border-hairline); font-family: var(--font-heading); font-size: var(--text-xs); color: var(--text-secondary); }
-  .btn { font-family: var(--font-heading); font-weight: 600; border-radius: var(--radius-sm); border: 1px solid transparent; padding: 0 18px; min-height: var(--touch-target); align-items: center; font-size: var(--text-sm); text-decoration: none; display: inline-flex; cursor: pointer; }
-  .btn-primary { background: var(--accent); color: var(--text-on-accent); }
-  .btn-primary:active { background: var(--accent-strong); }
-  @media (hover: hover) { .btn-primary:hover { background: var(--accent-strong); } }
 
   main { max-width: var(--content-width); margin: var(--space-8) auto var(--space-9); }
   @media (max-width: 747.98px) { main { margin: var(--space-6) auto var(--space-7); } }
   h1.page-title { font-family: var(--font-heading); font-size: var(--text-h1); font-weight: 800; letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); color: var(--text-primary); margin: 0 0 var(--space-5); }
-  .search-form label { display: block; font-family: var(--font-heading); font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-2); }
-  .search-row { display: flex; flex-wrap: wrap; gap: var(--space-3); }
-  .search-row .pl-field { flex: 1 1 14rem; width: auto; }
-  .btn { cursor: pointer; }
   .result-count { font-family: var(--font-heading); font-size: var(--text-sm); color: var(--text-secondary); margin: var(--space-5) 0 0; }
   .results { margin-top: var(--space-2); }
 
@@ -46,25 +38,18 @@
 <div class="shell">
   <nav class="pl-nav" aria-label="Main">
     <a class="pl-wordmark" href="#"><span>~/</span>pras-labs</a>
+    <form class="pl-search" role="search" action="/search" method="get"><input class="pl-field" type="search" name="q" placeholder="Search" aria-label="Search the writing" autocomplete="off" enterkeyhint="search" value="gitops"></form>
     <div class="pl-nav-links">
       <a class="pl-nav-item" href="#"><span>Writing</span></a>
       <a class="pl-nav-item" href="#"><span>About</span></a>
       <a class="pl-nav-item" href="#"><span>Consulting</span></a>
-      <a class="pl-nav-item" aria-current="page" href="#"><span>Search</span></a>
       <button class="pl-nav-item pl-theme-toggle" id="theme-toggle" type="button"><span>Theme: Dark</span></button>
     </div>
   </nav>
 
   <main>
-    <h1 class="page-title">Search</h1>
-    <!-- A GET form: the query lives in the URL (/search?q=...), so a result page can be linked, bookmarked and reached with the back button. -->
-    <form class="search-form" role="search" action="/search" method="get">
-      <label for="q">Search the writing</label>
-      <div class="search-row">
-        <input class="pl-field" id="q" name="q" type="search" value="gitops" autocomplete="off" enterkeyhint="search">
-        <button class="btn btn-primary" type="submit">Search</button>
-      </div>
-    </form>
+    <h1 class="page-title">Search results</h1>
+    <!-- The field is in the Nav (value kept from the query). The query lives in the URL: /search?q=gitops -->
     <p class="result-count" role="status">2 posts match "gitops"</p>
     <div class="results">
       <a class="post" href="#">
@@ -83,6 +68,7 @@
 </div>
 <script>
 (function () {
+  document.querySelectorAll('.pl-search .pl-field').forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Escape') i.blur(); }); });
   var b = document.getElementById('theme-toggle');
   function cur() {
     var d = document.documentElement.getAttribute('data-theme');

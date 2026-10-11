@@ -73,6 +73,29 @@
   .pl-nav-links { column-gap: var(--space-3); }
 }
 
+/* Nav search: a narrow field beside the wordmark. While it has focus it grows to
+   the right. From 609px up, where the whole nav fits on one row, the link group
+   (links and theme button) is also hidden so the wordmark and the field are all
+   that is left; the nav keeps its height, so nothing moves.
+   Below 609px the links stay. Hiding them there would shrink the nav by a row and
+   shift the page up while the field is focused, and the first tap on a link
+   below would land on the wrong thing, because focus leaves the field on the
+   press and the nav grows back before the finger lifts (reproduced at 375px).
+   609px is the measured width at which the nav fits one row with the real fonts
+   and the longer "Theme: Light" label; it is not a breakpoint token.
+   The field is before the links in the DOM as well as on screen, so tab order
+   matches what you see. There is no animation: width is not one of the
+   properties this system lets move (color and border-color only). Without :has()
+   support the field simply stays narrow and the links stay. The auto margin keeps
+   the links at the far end of a one-row nav. */
+.pl-search { margin: 0 auto 0 0; flex: 0 0 auto; }
+.pl-search .pl-field { width: 7rem; }
+.pl-nav:has(.pl-search .pl-field:focus) .pl-search { flex: 1 1 0; min-width: 7rem; max-width: 26rem; }
+.pl-nav:has(.pl-search .pl-field:focus) .pl-search .pl-field { width: 100%; }
+@media (min-width: 609px) {
+  .pl-nav:has(.pl-search .pl-field:focus) .pl-nav-links { display: none; }
+}
+
 /* AuthorBio and ConsultCTA panels: space-5 padding, space-4 below bp-sm. */
 .pl-panel { padding: var(--space-5); }
 @media (max-width: 479.98px) { /* below bp-sm */
@@ -116,9 +139,9 @@
   .pl-post:hover .pl-post-title { color: var(--accent-strong); }
 }
 
-/* Search field: 44px tall, a boundary that clears 3:1 (border-control), the
-   shared focus ring from styles.css. The border shifts to accent on focus
-   as well, so focus does not rely on the outline alone. */
+/* Text field (used by the Nav search): 44px tall, a boundary that clears 3:1
+   (border-control), the shared focus ring from styles.css. The border shifts to
+   accent on focus as well, so focus does not rely on the outline alone. */
 .pl-field {
   box-sizing: border-box;
   width: 100%;

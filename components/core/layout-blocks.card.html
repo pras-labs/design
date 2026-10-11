@@ -11,7 +11,7 @@ nav.pl-nav{margin-bottom:18px}
 .note{font-family:var(--font-heading);font-size:var(--text-xs);color:var(--text-secondary);margin:16px 0 0}
 </style></head><body>
 <nav class="pl-nav"><a class="pl-wordmark" href="#"><span>~/</span>pras-labs</a>
-<div class="pl-nav-links"><a class="pl-nav-item" href="#" aria-current="page"><span>Writing</span></a><a class="pl-nav-item" href="#"><span>About</span></a><a class="pl-nav-item" href="#"><span>Consulting</span></a><a class="pl-nav-item" href="#"><span>Search</span></a><button class="pl-nav-item" type="button"><span>Theme: Dark</span></button></div></nav>
+<form class="pl-search" role="search" action="/search" method="get"><input class="pl-field" type="search" name="q" placeholder="Search" aria-label="Search the writing" autocomplete="off" enterkeyhint="search"></form><div class="pl-nav-links"><a class="pl-nav-item" href="#" aria-current="page"><span>Writing</span></a><a class="pl-nav-item" href="#"><span>About</span></a><a class="pl-nav-item" href="#"><span>Consulting</span></a><button class="pl-nav-item" type="button"><span>Theme: Dark</span></button></div></nav>
 <div class="post">
   <h3>Reconciling drift across a 40-cluster GitOps fleet</h3>
   <p>The cluster didn't page us because it failed. It paged us because it succeeded, quietly, at a scale our alerting never modeled.</p>
