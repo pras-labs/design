@@ -26,6 +26,7 @@ but human. Terminal-meets-editorial. Not flashy.
 - `guidelines/`: foundation specimen cards (Colors, Type, Spacing, Brand)
 - `ui_kits/blog-post/`: full article page (primary surface)
 - `ui_kits/homepage/`: hero + writing feed
+- `ui_kits/search/`: search form + results
 - `ui_kits/about-consulting/`: bio, services, consulting CTA
 - `SKILL.md`: portable skill file for Claude Code
 
@@ -83,7 +84,20 @@ Mobile is a designed state, not the desktop layout squeezed. The system is one c
 - **Tap targets.** Every interactive element has a hit area of at least `touch-target` (44px) in both directions, using padding or a pseudo-element when the visual is smaller. Adjacent hit areas may touch but never overlap. Links inside running prose are exempt.
 - **Overflow.** The page never scrolls sideways, checked at 320px. `CodeBlock` and tables scroll inside their own box (`max-width: 100%`), and that box is keyboard-focusable. Titles, filenames and long tokens use `overflow-wrap: anywhere`. Images are `max-width: 100%`. Never put `overflow: hidden` on a container that holds text.
 - **No hover-only interactions.** Nothing in this system is revealed or opened by hover. Every hover color shift has the same shift on press.
-- **Nav.** Three links, a wordmark and a theme button, no menu. It is static, never sticky or fixed, so it cannot cover content. If the row does not fit, the links wrap onto a second row under the wordmark, and the link group wraps too, so a wider font setting or the longer "Theme: Light" label never pushes it past the page edge. Measured with the real fonts, the row is one line from 428px up and two rows below that. A hamburger would hide three links to save one row.
+- **Nav.** Four links, a wordmark and a theme button, no menu. It is static, never sticky or fixed, so it cannot cover content. If the row does not fit, the links wrap onto a second row under the wordmark, and the link group wraps too, so a wider font setting or the longer "Theme: Light" label never pushes it past the page edge. Measured with the real fonts (and the longer "Theme: Light" label): one row from 540px up, two rows from 394px to 539px, and three rows below 394px, which includes most phones in portrait. At three rows the nav is about 132px tall. That is the price of a fourth link; if it proves too tall, the first fix to try is putting the theme button on the wordmark's row at phone width, not a hamburger. A hamburger would hide four links to save one or two rows.
+
+## Search
+
+Search is a page, `/search`, reached by the fourth Nav link. It is not a field in the Nav: the Nav stays four links and a theme button, and a field there would need its own row at phone width. This replaces the earlier rule "no dropdowns, no search bar in v1" for search only; dropdowns are still out. The reason for the change: a reader looking for one post on a long-running blog has no other way to find it.
+
+- **Form.** A `<form role="search" method="get" action="/search">` with one `<input type="search" name="q">`. The query lives in the URL (`/search?q=gitops`), so a result page can be linked, bookmarked and reached with Back. No search-as-you-type, no suggestion dropdown, nothing that opens on hover or typing.
+- **Label.** A visible `<label>` above the field, "Search the writing", in `label` size, `text-primary`. A placeholder is not a label. If a placeholder is used it is `text-secondary` (the field class sets it so) and repeats nothing the label already says.
+- **Field.** `.pl-field` in `core.css`: at least 44px tall, full width of the reading column, `surface` fill, 1px `border-control` boundary (3:1 or better), `text-base` text (never below 16px, so mobile browsers do not zoom on focus). Focus shows the shared `focus-ring` outline plus an `accent` border, so focus never rests on the outline alone. Radius `radius-sm`.
+- **Submit.** A primary `Button` labeled "Search", beside the field. Below `bp-sm` the field and button wrap onto two rows; both stay at least 44px tall. Enter submits.
+- **Results.** The count first, in `text-secondary`, as `role="status"` so it is announced after a search (`2 posts match "gitops"`). Then `PostCard` rows, the same footprint as the feed. The card links are the only targets; there is no pagination until a result set is long enough to need it.
+- **States.** Empty query, no results and error are written under States. Loading reuses "Loading posts".
+- **Nav.** On `/search` the Search link carries `aria-current="page"`, so `Nav active="search"`.
+- **Preview.** `ui_kits/search/` shows the results state with a sample query and sample posts. The text in it is a placeholder.
 
 ## States
 
@@ -99,7 +113,10 @@ Every interactive element has these states: default, hover (color shift only), p
 - **Post feed, error.** "Could not load posts. Check your connection, then try again." in `danger`, with a secondary `Button` labeled "Try again".
 - **State messages.** Set in the `heading` family at `label` size, left-aligned in the reading column, with `space-6` vertical padding and a `border-hairline` bottom rule, the same footprint as a `PostCard` row. Say what happened, then what to do. No exclamation marks, no emoji, no apology.
 - **AuthorBio, headshot fails to load.** Show the empty `surface-2` disc with the `accent-warm-border` ring. The name and role stay.
-- **Forms.** None exist yet. When one is added: errors are text first and tied to their field, and a focused field scrolls into view above the on-screen keyboard.
+- **Search, empty query.** The page opens with the field and "Type a word or a tag to search the writing." No results list.
+- **Search, no results.** `role="status"` text: `No posts match "kuberentes". Check the spelling or try a shorter word.` (the query is a sample) with a ghost `Button` labeled "Clear search". Never "Oops", never a blank page.
+- **Search, error.** Reuses the post feed error: "Could not load posts. Check your connection, then try again." with "Try again". The field keeps what the reader typed.
+- **Forms.** The only form is Search (see Search above). When another is added: errors are text first and tied to their field, and a focused field scrolls into view above the on-screen keyboard.
 
 ## Fonts
 

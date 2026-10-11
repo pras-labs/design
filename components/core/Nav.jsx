@@ -3,7 +3,7 @@ import { getTheme, setTheme } from './theme.js';
 
 /**
  * Nav: minimal top navigation. Stays out of the way of the reading column.
- * Three links, the wordmark and one text button that switches the theme (the last item).
+ * Four links (Writing, About, Consulting, Search), the wordmark and one text button that switches the theme (the last item).
  * Static, never sticky or fixed. If the row does not fit, the links wrap under the wordmark.
  */
 export function Nav({ active = 'writing' }) {
@@ -11,6 +11,7 @@ export function Nav({ active = 'writing' }) {
     { key: 'writing', label: 'Writing', href: '/' },
     { key: 'about', label: 'About', href: '/about' },
     { key: 'consulting', label: 'Consulting', href: '/consulting' },
+    { key: 'search', label: 'Search', href: '/search' },
   ];
   // Server render and first client render both show dark, then the effect reads the real theme.
   const [theme, setThemeState] = React.useState('dark');

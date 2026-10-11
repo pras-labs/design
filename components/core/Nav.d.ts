@@ -1,6 +1,6 @@
 export interface NavProps {
   /** @default 'writing' */
-  active?: 'writing' | 'about' | 'consulting';
+  active?: 'writing' | 'about' | 'consulting' | 'search';
   // The nav is labeled "Main". The theme button is built in: it reads and writes the theme through ./theme.js.
 }
 
