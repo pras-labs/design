@@ -21,8 +21,9 @@ but human. Terminal-meets-editorial. Not flashy.
   (desktop sizes plus the fluid heading sizes), `spacing.css` (scale, widths, breakpoints,
   `--touch-target`), `fonts.css` (Google Fonts import)
 - `components/core/`: Button, Tag, CodeBlock, ArticleMeta, PostCard, AuthorBio,
-  ConsultCTA, Nav (`.jsx` + `.d.ts` + `.prompt.md` each); `core.css` (hit areas, syntax token
-  classes, Nav and panel rules, hero cursor); `theme.js` (theme helpers and the no-flash script)
+  ConsultCTA, Nav, Footer (`.jsx` + `.d.ts` + `.prompt.md` each); `core.css` (hit areas, syntax token
+  classes, Nav, Footer and panel rules, hero cursor); `theme.js` (theme helpers, the no-flash script
+  and the no-JavaScript rule)
 - `guidelines/`: foundation specimen cards (Colors, Type, Spacing, Brand)
 - `ui_kits/blog-post/`: full article page (primary surface)
 - `ui_kits/homepage/`: hero + writing feed
@@ -40,6 +41,14 @@ but human. Terminal-meets-editorial. Not flashy.
 - Post titles are specific and technical (sample: "Reconciling drift across a 40-cluster GitOps fleet"), never listicle-style.
 - All article content in this README and in the specimen cards and ui_kits (titles, excerpts, dates, read times, tags, code) is sample text, not a published article. Replace it with real content when building pages.
 - No emoji anywhere in the system.
+
+## Naming
+
+One site, two written forms, and they are not interchangeable.
+
+- **Plain text: "Pras' Labs".** Everywhere the name is read or parsed as text: the browser tab, the footer, the RSS channel title, `og:site_name`, link previews, structured data, alt text. Page titles are "Page title | Pras' Labs". The home page title is "Pras' Labs: The Hands-On Engineer", and that long form with the tagline is used nowhere else.
+- **Wordmark: `~/pras-labs`.** A visual mark: set in `mono`, with the `~/` in `accent`. It appears in the Nav and nowhere in plain text. The `~/` is typography, and it reads badly in a tab, a feed reader or a screen reader's list of links, so it never goes into a title, feed or preview.
+- **Copyright holder: the author.** "© 2026 Prasetiyo Hadi Purwoko", in the Footer. The holder is a person, not the site name.
 
 ## Visual foundations
 
@@ -67,10 +76,12 @@ Reading this as: a long-form technical blog and consulting site for infrastructu
 
 ## Theme switching
 
-- **Order.** The reader's stored choice, then `prefers-color-scheme`, then dark.
-- **CSS contract.** Dark values on `:root` and `[data-theme="dark"]`. Light values under `@media (prefers-color-scheme: light) { :root:not([data-theme]) { ... } }` and under `[data-theme="light"]`. `[data-theme="dark"]` restores dark for a reader whose OS is light. The attribute selectors are not limited to `:root`, so a subtree can be themed. Set `color-scheme` to match so native controls and scrollbars follow.
-- **No flash.** A small inline script in `<head>`, before first paint, reads the stored choice and sets `data-theme` (`themeInitScript` in `components/core/theme.js`). Without JavaScript the `prefers-color-scheme` rule still decides.
+- **Order.** The reader's stored choice, then `prefers-color-scheme`. Dark is the fallback only where the browser reports no color scheme at all. In practice browsers answer "light" when the operating system states nothing, so a first-time visitor on a default system gets light, and a visitor whose system is set to dark gets dark. A dark default for everyone who has not chosen would need a different mechanism (ignoring the system setting and defaulting to `data-theme="dark"`), which overrides what a light-mode reader asked their device for. This system does not do that.
+- **Required.** These parts are the contract: (1) the token names and values in each theme; (2) an explicit choice is expressed as `data-theme="dark"` or `data-theme="light"` on `<html>`, and wins over the system setting; (3) the choice is stored (`localStorage`, in try/catch) and applied by an inline script in `<head>` before first paint, so there is no flash (`themeInitScript` in `components/core/theme.js`); (4) `color-scheme` matches the theme, so native controls and scrollbars follow; (5) print always uses the light tokens; (6) without JavaScript the page still follows the system setting.
+- **One way to do it, not required.** `tokens/colors.css` puts dark on `:root` and `[data-theme="dark"]`, light under `@media (prefers-color-scheme: light) { :root:not([data-theme]) { ... } }` and under `[data-theme="light"]`. A site whose theme layer uses only `:root[data-theme="dark"]` and `:root[data-theme="light"]` can follow the contract by having its head script always set `data-theme`, from the stored choice and otherwise from `matchMedia('(prefers-color-scheme: light)')`. If it does, keep a `prefers-color-scheme` rule in the CSS as well, so point (6) still holds when the script cannot run.
+- **No flash.** The inline script in `<head>` reads the stored choice and sets `data-theme`. Without JavaScript the `prefers-color-scheme` rule decides the styles.
 - **Control.** One text button, the last item in the Nav links, labeled with the current theme ("Theme: Dark", "Theme: Light"). It has no icon, follows the Nav target, state and focus rules, and its label changes when the theme changes. Its accessible name adds the action ("Theme: Dark. Switch to light."), so a screen reader user hears what pressing it does; the visible text stays at the start of the name. Activating it switches the theme and stores the choice in `localStorage`, read and written inside try/catch so the page works without storage.
+- **Without JavaScript the button is hidden.** It would do nothing. Put `themeNoScriptCss` (`.pl-theme-toggle{display:none}`) in `<head>` inside `<noscript><style>`, next to the init script. The link group is one item shorter in that case.
 - **Everything switches together:** syntax colors, `accent`, `accent-strong`, `focus-ring`, and borders. Print always uses the light tokens (a `@media print` block at the end of `tokens/colors.css`), and the theme button is hidden on paper.
 - **Both themes are checked** at 4.5:1 for text and 3:1 for interactive boundaries.
 
@@ -84,21 +95,49 @@ Mobile is a designed state, not the desktop layout squeezed. The system is one c
 - **Tap targets.** Every interactive element has a hit area of at least `touch-target` (44px) in both directions, using padding or a pseudo-element when the visual is smaller. Adjacent hit areas may touch but never overlap. Links inside running prose are exempt.
 - **Overflow.** The page never scrolls sideways, checked at 320px. `CodeBlock` and tables scroll inside their own box (`max-width: 100%`), and that box is keyboard-focusable. Titles, filenames and long tokens use `overflow-wrap: anywhere`. Images are `max-width: 100%`. Never put `overflow: hidden` on a container that holds text.
 - **No hover-only interactions.** Nothing in this system is revealed or opened by hover. Every hover color shift has the same shift on press.
-- **Nav.** The wordmark, a search field, three links and a theme button, no menu. It is static, never sticky or fixed, so it cannot cover content. If the row does not fit, the items wrap onto a second row under the wordmark, and the link group wraps too, so a wider font setting or the longer "Theme: Light" label never pushes it past the page edge. Measured with the real fonts (and the longer "Theme: Light" label): one row from 609px up, two rows from 332px to 608px (wordmark and field on the first row, links and theme on the second), three rows below 332px. A hamburger would hide three links to save one row.
+- **Nav.** The wordmark, a search field, up to three text links and a theme button, no menu. It is static, never sticky or fixed, so it cannot cover content. The Nav has no horizontal padding of its own: it sits inside the page shell, so the page padding above applies to it and the one-row width depends on it. If the row does not fit, the items wrap onto a second row under the wordmark, and the link group wraps too, so a wider font setting or the longer "Theme: Light" label never pushes it past the page edge. The widths depend on the links. Measured for this system's own Nav (Writing, About, Consulting, the longer "Theme: Light" label, the real fonts, 24px page padding): one row from 609px up, two rows from 332px to 608px (wordmark and field on the first row, links and theme on the second), three rows below 332px. A site with two links fits one row at a smaller width; measure your own and use that. A hamburger would hide three links to save one row.
+- **Nav links.** The site supplies up to three links, one word each, as nouns. This system's examples are Writing, About and Consulting, and they are examples: a site that calls its section "Posts" uses "Posts". A page the site does not have is left out, never shown as a dead link, so a site with no Consulting page has two links. A fourth link means measuring the Nav again, because the one-row and wrap widths change. Secondary lists (Archive, Tags, RSS) belong in the Footer, not the Nav.
 
 ## Search
 
 Search is a field in the Nav, beside the wordmark, and a results page at `/search`. The earlier rule "no dropdowns, no search bar in v1" is replaced for search only; dropdowns are still out. The reason for the change: a reader looking for one post on a long-running blog has no other way to find it.
 
-- **At rest.** A narrow field (`7rem` wide, 44px tall) with the placeholder "Search", right after the wordmark. It is before the links in the DOM as well as on screen, so tab order matches what you see.
-- **On focus.** The field grows to the right, up to `26rem`. From 609px up, where the Nav fits one row, the link group (links and theme button) is hidden while the field has focus, so the wordmark and the field are all that is left, and the Nav keeps its height. Escape or leaving the field brings the links back. Below 609px the links stay and only the field grows (it fills the rest of the wordmark's row). Hiding them there would shrink the Nav by a row and shift the page up, and the first tap on a link below would then land in the wrong place, because focus leaves the field on the press and the Nav grows back before the finger lifts (reproduced at 375px). 609px is a measured Nav width, not a breakpoint token.
+- **At rest.** A narrow field (`7rem` wide, 44px tall) with the placeholder "Search", right after the wordmark. The form comes before the link list in the DOM as well as on screen, so tab order is wordmark, field, links, theme button.
+- **On focus.** The field grows to the right, up to `26rem`. From the one-row width up, the link group (links and theme button) is visually hidden while the field has focus, so the wordmark and the field are all that is left. It is hidden by clipping, never `display: none` or `visibility: hidden`: those remove the links from the tab order, and Tab from the field would skip them and land in the page. Clipped (`position: absolute`, a 1px box, `overflow: hidden`, `clip-path: inset(50%)`), the links stay focusable: Tab from the field reaches the first link, the field loses focus, the links come back, and Shift+Tab from that link returns to the field. Screen reader users keep the links too.
+- **The one-row width is a rule, not a number.** The rule is: from the width at which this site's Nav fits on one row. 609px is the measured value for this system's own Nav, an example to replace with your own measurement, not a constant to copy. The `core.css` media query holds it in one place. Too high a value is harmless: the links just stay visible a little longer. Too low a value is a bug: the group is clipped while it sits on its own row, the Nav shrinks by a row on focus, the page shifts up, and the first tap on a link below the Nav is lost, because focus leaves the field on the press and the Nav grows back before the finger lifts (reproduced at 375px). Below the one-row width the links stay and only the field grows, filling the rest of the wordmark's row.
+- **Resting size is the floor.** The focused field keeps its resting `flex-basis` (`7rem`) and `min-width`, and only grows from there. With a basis of 0 the link group could fit up onto the wordmark's row below the one-row width, and the Nav would change height.
 - **No animation.** The change is instant. Width is not one of the properties this system lets move (color and border-color only); animating it would be an explicit exception to make later, with `prefers-reduced-motion` honored. Without `:has()` support the field stays narrow and the links stay.
+- **Escape.** Escape leaves the field and does nothing else: the text stays, results on the page stay, and the links come back. It exists to restore the menu, so it does not also clear a search; the field's own clear button does that.
 - **Form.** A `<form role="search" method="get" action="/search">` with one `<input type="search" name="q">`. The query lives in the URL (`/search?q=gitops`), so a result page can be linked, bookmarked and reached with Back. Enter submits. No search-as-you-type, no suggestion dropdown, nothing that opens on hover or typing.
+- **One field.** The Nav field is the only search field on a page, the results page included. The results page has no second box: the Nav field carries the query (`query` on `Nav`), and the site's search script is wired to that field. Two fields would also mean two `role="search"` landmarks with the same purpose. If a search script insists on its own on-page input, that is a deviation to record in the site, and then Escape in either field still only leaves the field.
 - **Name.** The field has `aria-label="Search the writing"` and the visible placeholder "Search", which is contained in the name. The placeholder is `text-secondary` and disappears when typing starts, so the Nav field has no persistent visible label. That is a trade made for the narrow field; anything larger than the Nav field gets a visible `<label>`.
-- **Field.** `.pl-field` in `core.css`: at least 44px tall, `surface` fill, 1px `border-control` boundary (3:1 or better), `text-base` text (never below 16px, so mobile browsers do not zoom on focus). Focus shows the shared `focus-ring` outline plus an `accent` border, so focus never rests on the outline alone. Radius `radius-sm`.
-- **Results page.** An `h1` ("Search results"), then the count in `text-secondary` as `role="status"` so it is announced after a search (`2 posts match "gitops"`), then `PostCard` rows with the same footprint as the feed. Result titles are `h2`. The Nav on this page uses `active={null}` (none of the three links is current) and `query` to put the search text back in the field. No pagination until a result set is long enough to need it.
+- **Field.** `.pl-field` in `core.css`: at least 44px tall, `surface` fill, 1px `border-control` boundary (3:1 or better), `text-base` text (never below 16px, so mobile browsers do not zoom on focus). Focus shows the shared `focus-ring` outline plus an `accent` border, so focus never rests on the outline alone. Radius `radius-sm` (4px).
+- **Results page.** An `h1` ("Search results"), then the count in `text-secondary` as `role="status"` so it is announced after a search (`2 posts match "gitops"`), then `PostCard` rows with the same footprint as the feed. Result titles are `h2`. The Nav on this page uses `active={null}` (none of the links is current) and `query` to put the search text back in the field. No pagination until a result set is long enough to need it.
 - **States.** Empty query, no results and error are written under States. Loading reuses "Loading posts".
 - **Preview.** `ui_kits/search/` shows the results state with a sample query and sample posts. The text in it is a placeholder.
+
+### Nav checks
+
+Run these on the real site, at 375px and at the one-row width and above, in both themes:
+
+1. Tab from the field reaches the first link, and the links are visible again.
+2. Shift+Tab from the first link returns to the field.
+3. Escape in the field leaves it, keeps the text and any results, and restores the links.
+4. The Nav is the same height with the field focused and not focused, at every width. Check just below and just at the one-row width.
+5. With the field focused at 375px, one tap on a link below the Nav registers.
+6. Every item is at least 44px tall and wide, and no two hit areas overlap.
+7. With JavaScript off, the theme button is hidden and the rest of the Nav works.
+8. The field shows the focus ring and the `accent` border.
+
+## Footer
+
+The Footer holds the secondary lists that the Nav does not: Archive, Tags and RSS in this system's examples, supplied by the site. It ends every page.
+
+- **Structure.** A `<footer>` (the page's one `contentinfo`) holding a `<nav aria-label="Footer">` of links and one copyright line. No second wordmark, no theme button, no search.
+- **Links.** The same text items as the Nav (`pl-nav-item`): `label` size (14px), `text-secondary`, `accent-strong` on hover and press, `aria-current="page"` on the current one with the `accent` underline, and the shared focus ring. No icons. Each link is at least 44px tall and wide with `space-4` between them (`space-3` below `bp-sm`), so hit areas touch but never overlap. A page the site does not have is left out, never shown dead.
+- **Copyright.** "© 2026 Prasetiyo Hadi Purwoko": `caption` size (13px) in `text-tertiary` (5.0:1 on `bg` in dark, 5.3:1 in light, and only on `bg`). The holder is the author, not the site name (see Naming). It sits at the far end of the row from the links and wraps under them on narrow screens.
+- **Frame.** A `border-hairline` rule on top, `space-4` above the content and `space-7` below it. Never sticky or fixed.
+- **Sample note.** In the ui_kits the "sample content" note sits at the end of `<main>`, above the footer, so the footer stays the only `contentinfo`.
 
 ## States
 

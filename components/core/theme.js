@@ -1,4 +1,5 @@
-/* Theme helpers. Order of choice: stored choice, then prefers-color-scheme, then dark.
+/* Theme helpers. Order of choice: stored choice, then prefers-color-scheme, then dark (only where the
+ * browser reports no color scheme at all; see README, Theme switching).
  * Storage is read and written inside try/catch so the page works without it. */
 
 const KEY = 'pras-labs-theme';
@@ -7,6 +8,10 @@ const KEY = 'pras-labs-theme';
  *  Without JavaScript the prefers-color-scheme rule in tokens/colors.css decides. */
 export const themeInitScript =
   "try{var t=localStorage.getItem('" + KEY + "');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}";
+
+/** Inline this in <head> inside <noscript><style>...</style></noscript>. Without JavaScript the theme button
+ *  does nothing, so it is not shown. */
+export const themeNoScriptCss = '.pl-theme-toggle{display:none}';
 
 /** The theme that is showing now. */
 export function getTheme() {

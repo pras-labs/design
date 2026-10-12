@@ -3,17 +3,21 @@ import { getTheme, setTheme } from './theme.js';
 
 /**
  * Nav: minimal top navigation. Stays out of the way of the reading column.
- * The wordmark, a search field, three links (Writing, About, Consulting) and one text button that switches the
- * theme (the last item in the link group). The field sits beside the wordmark and is narrow until it has focus. While it has focus it
- * grows and the link group is hidden (core.css, .pl-nav:has(...)); Escape or leaving the field brings it back.
- * Static, never sticky or fixed. If the row does not fit, the links wrap under the wordmark.
+ * In order: the wordmark, a search field, up to three text links the site supplies, and one text button
+ * that switches the theme (the last item in the link group). The field is narrow until it has focus; while
+ * it has focus it grows, and from the one-row width up the link group is visually hidden but stays
+ * focusable (core.css, .pl-nav:has(...)). Tab from the field reaches the first link and the links come back.
+ * Escape leaves the field and changes nothing else. Static, never sticky or fixed. If the row does not fit,
+ * the items wrap under the wordmark.
  */
-export function Nav({ active = 'writing', query = '' }) {
-  const items = [
-    { key: 'writing', label: 'Writing', href: '/' },
-    { key: 'about', label: 'About', href: '/about' },
-    { key: 'consulting', label: 'Consulting', href: '/consulting' },
-  ];
+const defaultLinks = [
+  { key: 'writing', label: 'Writing', href: '/' },
+  { key: 'about', label: 'About', href: '/about' },
+  { key: 'consulting', label: 'Consulting', href: '/consulting' },
+];
+
+export function Nav({ active = 'writing', query = '', links = defaultLinks }) {
+  const items = links;
   // Server render and first client render both show dark, then the effect reads the real theme.
   const [theme, setThemeState] = React.useState('dark');
   React.useEffect(() => { setThemeState(getTheme()); }, []);
@@ -35,7 +39,7 @@ export function Nav({ active = 'writing', query = '' }) {
           aria-label="Search the writing"
           autoComplete="off"
           enterKeyHint="search"
-          onKeyDown={(e) => { if (e.key === 'Escape') e.currentTarget.blur(); }}
+          onKeyDown={(e) => { if (e.key === 'Escape') { e.preventDefault(); e.currentTarget.blur(); } }}
         />
       </form>
       <div className="pl-nav-links">

@@ -28,6 +28,7 @@
 /* Nav: the row wraps, and the link group wraps too, so a wider font setting or
    the longer "Theme: Light" label never pushes it past the page edge. */
 .pl-nav {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -74,26 +75,72 @@
 }
 
 /* Nav search: a narrow field beside the wordmark. While it has focus it grows to
-   the right. From 609px up, where the whole nav fits on one row, the link group
-   (links and theme button) is also hidden so the wordmark and the field are all
-   that is left; the nav keeps its height, so nothing moves.
-   Below 609px the links stay. Hiding them there would shrink the nav by a row and
-   shift the page up while the field is focused, and the first tap on a link
-   below would land on the wrong thing, because focus leaves the field on the
-   press and the nav grows back before the finger lifts (reproduced at 375px).
-   609px is the measured width at which the nav fits one row with the real fonts
-   and the longer "Theme: Light" label; it is not a breakpoint token.
+   the right, and from the one-row width up the link group is visually hidden so
+   the wordmark and the field are all that is left.
+
+   The group is hidden by clipping, never display: none or visibility: hidden.
+   Those remove the links from the tab order, and Tab from the field would skip
+   them and land in the page. Clipped, the links stay focusable: Tab from the
+   field reaches the first link, the field loses focus, :has() stops matching and
+   the links come back. Clipping takes the group out of the flow, so the Nav keeps
+   its height only where the group shared a row with the wordmark (see below).
+
+   ONE-ROW WIDTH (609px below). The rule is: from the width at which this site's
+   Nav fits on one row. 609px is the measured value for the design system's own
+   Nav (three links, the longer "Theme: Light" label, 24px page padding). Measure
+   your own with the real fonts and the longer label and replace it. A value too
+   high is harmless (the links just stay visible a little longer). A value too low
+   is a bug: the group would be clipped while it sits on its own row, the Nav
+   shrinks by a row on focus, the page shifts up, and the first tap on a link
+   below the Nav is lost, because focus leaves the field on the press and the Nav
+   grows back before the finger lifts (reproduced at 375px).
+
+   The focused field keeps its resting size as the floor (flex-basis and
+   min-width 7rem). With a basis of 0 the link group could fit up on the
+   wordmark's row below the one-row width and the Nav would change height.
+
    The field is before the links in the DOM as well as on screen, so tab order
-   matches what you see. There is no animation: width is not one of the
-   properties this system lets move (color and border-color only). Without :has()
-   support the field simply stays narrow and the links stay. The auto margin keeps
-   the links at the far end of a one-row nav. */
+   matches what you see. There is no animation: width is not one of the properties
+   this system lets move (color and border-color only). Without :has() support the
+   field simply stays narrow and the links stay. The auto margin keeps the links at
+   the far end of a one-row nav. */
 .pl-search { margin: 0 auto 0 0; flex: 0 0 auto; }
 .pl-search .pl-field { width: 7rem; }
-.pl-nav:has(.pl-search .pl-field:focus) .pl-search { flex: 1 1 0; min-width: 7rem; max-width: 26rem; }
+.pl-nav:has(.pl-search .pl-field:focus) .pl-search { flex: 1 1 7rem; min-width: 7rem; max-width: 26rem; }
 .pl-nav:has(.pl-search .pl-field:focus) .pl-search .pl-field { width: 100%; }
-@media (min-width: 609px) {
-  .pl-nav:has(.pl-search .pl-field:focus) .pl-nav-links { display: none; }
+@media (min-width: 609px) { /* the one-row width of this Nav, see above */
+  .pl-nav:has(.pl-search .pl-field:focus) .pl-nav-links {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Footer: secondary links and the copyright line. The links are the same
+   44px text items as the Nav (.pl-nav-item), so size, color, hover, press,
+   current-page and focus rules are shared. */
+.pl-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+  padding: var(--space-4) 0 var(--space-7);
+  border-top: 1px solid var(--border-hairline);
+}
+.pl-footer-links { display: flex; flex-wrap: wrap; gap: 0 var(--space-4); }
+.pl-footer-copy {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+@media (max-width: 479.98px) { /* below bp-sm */
+  .pl-footer-links { column-gap: var(--space-3); }
 }
 
 /* AuthorBio and ConsultCTA panels: space-5 padding, space-4 below bp-sm. */

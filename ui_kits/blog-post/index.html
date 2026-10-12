@@ -71,6 +71,7 @@
 
   footer.tags { display: flex; gap: var(--space-3) var(--space-2); flex-wrap: wrap; margin: var(--space-6) 0 var(--space-8); }
 </style>
+<noscript><style>.pl-theme-toggle{display:none}</style></noscript>
 </head>
 <body>
 <div class="shell">
@@ -155,12 +156,20 @@ if resp.StatusCode == <span class="tok-number">429</span> {
       <a class="tag" href="#" data-hit>incident-review</a>
     </footer>
   </article>
-  </main>
-  <footer class="sample-note">Sample content for layout only. The article, its figures, the availability line and the bio are placeholders, not published facts or a current availability claim.</footer>
+    <p class="sample-note">Sample content for layout only. The article, its figures, the availability line and the bio are placeholders, not published facts or a current availability claim.</p>
+</main>
+  <footer class="pl-footer">
+    <nav class="pl-footer-links" aria-label="Footer">
+      <a class="pl-nav-item" href="#"><span>Archive</span></a>
+      <a class="pl-nav-item" href="#"><span>Tags</span></a>
+      <a class="pl-nav-item" href="#"><span>RSS</span></a>
+    </nav>
+    <p class="pl-footer-copy">&copy; 2026 Prasetiyo Hadi Purwoko</p>
+  </footer>
 </div>
 <script>
 (function () {
-  document.querySelectorAll('.pl-search .pl-field').forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Escape') i.blur(); }); });
+  document.querySelectorAll('.pl-search .pl-field').forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); i.blur(); } }); });
   var b = document.getElementById('theme-toggle');
   function cur() {
     var d = document.documentElement.getAttribute('data-theme');
