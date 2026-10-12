@@ -29,6 +29,8 @@
    the longer "Theme: Light" label never pushes it past the page edge. */
 .pl-nav {
   position: relative;
+  max-width: var(--content-width-wide);
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -56,9 +58,16 @@
   transition: color var(--duration-fast) var(--ease-standard);
 }
 .pl-nav-item > span { padding-bottom: 4px; border-bottom: 2px solid transparent; }
-.pl-nav-item:hover { color: var(--accent-strong); text-decoration: none; }
 .pl-nav-item[aria-current="page"] { color: var(--text-primary); }
 .pl-nav-item[aria-current="page"] > span { border-bottom-color: var(--accent); }
+/* Hover and press shift the color to accent-strong, the same shift for both.
+   Hover is limited to devices that can hover, so a tap never leaves a sticky
+   hover color. The current item is excluded: it keeps text-primary on hover and
+   press and shows its state with the accent underline. */
+.pl-nav-item:not([aria-current="page"]):active { color: var(--accent-strong); }
+@media (hover: hover) {
+  .pl-nav-item:not([aria-current="page"]):hover { color: var(--accent-strong); }
+}
 .pl-wordmark {
   display: inline-flex;
   align-items: center;
@@ -70,6 +79,10 @@
   text-decoration: none;
 }
 .pl-wordmark > span { color: var(--accent); }
+.pl-wordmark:active { color: var(--accent-strong); }
+@media (hover: hover) {
+  .pl-wordmark:hover { color: var(--accent-strong); }
+}
 @media (max-width: 479.98px) { /* below bp-sm */
   .pl-nav-links { column-gap: var(--space-3); }
 }
@@ -85,15 +98,20 @@
    the links come back. Clipping takes the group out of the flow, so the Nav keeps
    its height only where the group shared a row with the wordmark (see below).
 
-   ONE-ROW WIDTH (609px below). The rule is: from the width at which this site's
-   Nav fits on one row. 609px is the measured value for the design system's own
-   Nav (three links, the longer "Theme: Light" label, 24px page padding). Measure
-   your own with the real fonts and the longer label and replace it. A value too
-   high is harmless (the links just stay visible a little longer). A value too low
-   is a bug: the group would be clipped while it sits on its own row, the Nav
-   shrinks by a row on focus, the page shifts up, and the first tap on a link
-   below the Nav is lost, because focus leaves the field on the press and the Nav
-   grows back before the finger lifts (reproduced at 375px).
+   ONE-ROW WIDTH (616px below). The rule is: the smallest width W such that every
+   width from W up fits on one row. Find it by scanning from wide to narrow and
+   stopping at the first width that needs two rows, then round up by about 8px for
+   font rendering differences between platforms. Do not take the first width that
+   fits when scanning downward or upward: page padding drops from space-5 to space-4
+   at bp-sm (480px), so a Nav can fit one row just below 480px, need two just above,
+   and fit again further up. Use the real fonts and the longer "Theme: Light" label.
+   For this system's own Nav (three links) W is 609px, used here as 616px. A site
+   with other links measures its own. A value too high is harmless (the links just
+   stay visible a little longer). A value too low is a bug: the group would be
+   clipped while it sits on its own row, the Nav shrinks by a row on focus, the page
+   shifts up, and the first tap on a link below the Nav is lost, because focus
+   leaves the field on the press and the Nav grows back before the finger lifts
+   (reproduced at 375px).
 
    The focused field keeps its resting size as the floor (flex-basis and
    min-width 7rem). With a basis of 0 the link group could fit up on the
@@ -108,7 +126,7 @@
 .pl-search .pl-field { width: 7rem; }
 .pl-nav:has(.pl-search .pl-field:focus) .pl-search { flex: 1 1 7rem; min-width: 7rem; max-width: 26rem; }
 .pl-nav:has(.pl-search .pl-field:focus) .pl-search .pl-field { width: 100%; }
-@media (min-width: 609px) { /* the one-row width of this Nav, see above */
+@media (min-width: 616px) { /* the one-row width of this Nav, see above */
   .pl-nav:has(.pl-search .pl-field:focus) .pl-nav-links {
     position: absolute;
     width: 1px;
@@ -120,10 +138,13 @@
   }
 }
 
-/* Footer: secondary links and the copyright line. The links are the same
+/* Footer: secondary links and the copyright line. Same width as the Nav
+   (content-width-wide, centered), so their edges line up with wide content. The links are the same
    44px text items as the Nav (.pl-nav-item), so size, color, hover, press,
    current-page and focus rules are shared. */
 .pl-footer {
+  max-width: var(--content-width-wide);
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -141,6 +162,9 @@
 }
 @media (max-width: 479.98px) { /* below bp-sm */
   .pl-footer-links { column-gap: var(--space-3); }
+}
+@media (max-width: 747.98px) { /* below bp-md: space-7 steps down one register (see Section rhythm) */
+  .pl-footer { padding-bottom: var(--space-6); }
 }
 
 /* AuthorBio and ConsultCTA panels: space-5 padding, space-4 below bp-sm. */
