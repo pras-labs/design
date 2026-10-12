@@ -14,8 +14,17 @@ html, body {
   line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
 }
-a { color: var(--link); text-decoration: none; }
-a:hover { color: var(--link-hover); text-decoration: underline; }
+/* Plain links, such as links inside running prose. These rules have zero
+   specificity (:where), so a component's own class (Button, Tag, Nav items,
+   the wordmark) always wins. A plain `a:hover` here out-ranks a single class and
+   turned a primary Button link's label the same color as its fill on hover.
+   Hover is limited to devices that can hover, so a tap never leaves a sticky
+   hover color; press shows the same color shift. */
+:where(a) { color: var(--link); text-decoration: none; }
+:where(a:active) { color: var(--link-hover); }
+@media (hover: hover) {
+  :where(a:hover) { color: var(--link-hover); text-decoration: underline; }
+}
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
   font-weight: var(--weight-semibold);
