@@ -4,9 +4,11 @@
 
 /* Hit area: a visual smaller than 44px keeps a 44px target. The pseudo-element
    extends the target without changing the layout. Rows must leave a gap at
-   least the extension wide so neighbouring hit areas touch but never overlap. */
-[data-hit] { position: relative; }
-[data-hit]::after {
+   least the extension wide so neighbouring hit areas touch but never overlap.
+   Nav and Footer items use it for width (they are 44px tall by min-height). */
+[data-hit], .pl-nav-item { position: relative; }
+[data-hit]::after,
+.pl-nav-item::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -39,52 +41,73 @@
   padding: var(--space-3) 0;
   border-bottom: 1px solid var(--border-hairline);
 }
-.pl-nav-links { display: flex; flex-wrap: wrap; gap: 0 var(--space-4); }
+/* Nav and Footer items. The 44px target is the hit area, not the visible box:
+   the box is the label plus space-2 each side (the shape of the hover and press
+   fill), 44px tall, and a pseudo-element (see the top of this file) widens the
+   target to 44px for short labels. Every item has the same padding, so the gap
+   between texts is the same everywhere: 2 x space-2 plus the group gap, space-1.
+   The gap is what keeps neighbouring hit areas from overlapping: it must be at
+   least the widest extension, (44 - 16 - label width) / 2, which is 4px for a
+   label 20px wide (three characters at this size) or longer.
+   The group is pulled out by space-2 at both ends, so the first and last label
+   text sit on the content edge, in line with the wordmark and the page edge. The
+   shift stays inside the page padding (16px or more). */
+.pl-nav-links { display: flex; flex-wrap: wrap; gap: 0 var(--space-1); margin-inline: calc(-1 * var(--space-2)); }
 .pl-nav-item {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: var(--touch-target);
-  min-width: var(--touch-target);
-  padding: 0;
-  background: none;
+  padding: 0 var(--space-2);
+  background: transparent;
   border: 0;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-family: var(--font-heading);
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   color: var(--text-secondary);
   text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-standard);
+  transition: color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
 }
 .pl-nav-item > span { padding-bottom: 4px; border-bottom: 2px solid transparent; }
 .pl-nav-item[aria-current="page"] { color: var(--text-primary); }
 .pl-nav-item[aria-current="page"] > span { border-bottom-color: var(--accent); }
-/* Hover and press shift the color to accent-strong, the same shift for both.
-   Hover is limited to devices that can hover, so a tap never leaves a sticky
-   hover color. The current item is excluded: it keeps text-primary on hover and
-   press and shows its state with the accent underline. */
-.pl-nav-item:not([aria-current="page"]):active { color: var(--accent-strong); }
+/* Hover and press, two cues. (1) A surface-hover fill behind the item, which does
+   not collide with the 2px accent rule that marks the current item. (2) For
+   items that are not current, the label goes from text-secondary to text-primary:
+   2.58:1 in light, 2.16:1 in dark, above the 2:1 floor (the accent pair is not an
+   option here, text-secondary to accent-strong is 1.41:1 in light). The current
+   item keeps text-primary and shows the fill only. Press shows the same as hover.
+   Entering :active has no transition, so a 100ms tap shows the full state; the
+   color and fill fade only on release. Hover is limited to devices that can
+   hover, so a tap never leaves a sticky hover state. */
+.pl-nav-item:active { background: var(--surface-hover); transition: none; }
+.pl-nav-item:not([aria-current="page"]):active { color: var(--text-primary); }
 @media (hover: hover) {
-  .pl-nav-item:not([aria-current="page"]):hover { color: var(--accent-strong); }
+  .pl-nav-item:hover { background: var(--surface-hover); }
+  .pl-nav-item:not([aria-current="page"]):hover { color: var(--text-primary); }
 }
+/* The wordmark is already text-primary, so there is no colour pair to widen. It
+   takes the same fill plus an underline (no current-page rule to collide with). */
 .pl-wordmark {
   display: inline-flex;
   align-items: center;
   min-height: var(--touch-target);
+  padding: 0 var(--space-2);
+  margin-inline-start: calc(-1 * var(--space-2));
+  border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-weight: var(--weight-semibold);
   font-size: var(--text-sm);
   color: var(--text-primary);
   text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 .pl-wordmark > span { color: var(--accent); }
-.pl-wordmark:active { color: var(--accent-strong); }
+.pl-wordmark:active { background: var(--surface-hover); text-decoration: underline; transition: none; }
 @media (hover: hover) {
-  .pl-wordmark:hover { color: var(--accent-strong); }
-}
-@media (max-width: 479.98px) { /* below bp-sm */
-  .pl-nav-links { column-gap: var(--space-3); }
+  .pl-wordmark:hover { background: var(--surface-hover); text-decoration: underline; }
 }
 
 /* Nav search: a narrow field beside the wordmark. While it has focus it grows to
@@ -98,14 +121,14 @@
    the links come back. Clipping takes the group out of the flow, so the Nav keeps
    its height only where the group shared a row with the wordmark (see below).
 
-   ONE-ROW WIDTH (616px below). The rule is: the smallest width W such that every
+   ONE-ROW WIDTH (640px below). The rule is: the smallest width W such that every
    width from W up fits on one row. Find it by scanning from wide to narrow and
    stopping at the first width that needs two rows, then round up by about 8px for
    font rendering differences between platforms. Do not take the first width that
    fits when scanning downward or upward: page padding drops from space-5 to space-4
    at bp-sm (480px), so a Nav can fit one row just below 480px, need two just above,
    and fit again further up. Use the real fonts and the longer "Theme: Light" label.
-   For this system's own Nav (three links) W is 609px, used here as 616px. A site
+   For this system's own Nav (three links) W is 629px, used here as 640px. A site
    with other links measures its own. A value too high is harmless (the links just
    stay visible a little longer). A value too low is a bug: the group would be
    clipped while it sits on its own row, the Nav shrinks by a row on focus, the page
@@ -126,7 +149,7 @@
 .pl-search .pl-field { width: 7rem; }
 .pl-nav:has(.pl-search .pl-field:focus) .pl-search { flex: 1 1 7rem; min-width: 7rem; max-width: 26rem; }
 .pl-nav:has(.pl-search .pl-field:focus) .pl-search .pl-field { width: 100%; }
-@media (min-width: 616px) { /* the one-row width of this Nav, see above */
+@media (min-width: 640px) { /* the one-row width of this Nav, see above */
   .pl-nav:has(.pl-search .pl-field:focus) .pl-nav-links {
     position: absolute;
     width: 1px;
@@ -153,15 +176,12 @@
   padding: var(--space-4) 0 var(--space-7);
   border-top: 1px solid var(--border-hairline);
 }
-.pl-footer-links { display: flex; flex-wrap: wrap; gap: 0 var(--space-4); }
+.pl-footer-links { display: flex; flex-wrap: wrap; gap: 0 var(--space-1); margin-inline-start: calc(-1 * var(--space-2)); }
 .pl-footer-copy {
   margin: 0;
   font-family: var(--font-heading);
   font-size: var(--text-xs);
   color: var(--text-tertiary);
-}
-@media (max-width: 479.98px) { /* below bp-sm */
-  .pl-footer-links { column-gap: var(--space-3); }
 }
 @media (max-width: 747.98px) { /* below bp-md: space-7 steps down one register (see Section rhythm) */
   .pl-footer { padding-bottom: var(--space-6); }
@@ -180,7 +200,7 @@
 /* Variants, selected state and the hover/press shift. Press shows the same shift
    as hover. :hover is limited to devices that can hover, so a tap never leaves a
    sticky hover color behind. Nothing here is revealed or opened by hover. */
-.pl-btn { border-color: transparent; }
+.pl-btn { border-color: transparent; transition: background var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
 .pl-btn:hover { text-decoration: none; }
 .pl-btn--primary { background: var(--accent); color: var(--text-on-accent); }
 .pl-btn--secondary { background: transparent; color: var(--text-primary); border-color: var(--border-control); }
@@ -195,6 +215,9 @@
 
 .pl-post-title { color: var(--text-primary); transition: color var(--duration-fast) var(--ease-standard); }
 
+/* Entering :active has no transition, so a 100ms tap shows the full pressed state;
+   the fade runs only on release. */
+.pl-btn:active, .pl-cta-link:active, .pl-post:active .pl-post-title { transition: none; }
 .pl-btn--primary:not([aria-disabled="true"]):active { background: var(--accent-strong); }
 .pl-btn--secondary:not([aria-disabled="true"]):active { border-color: var(--accent); color: var(--accent-strong); }
 .pl-btn--ghost:not([aria-disabled="true"]):active { color: var(--accent-strong); }

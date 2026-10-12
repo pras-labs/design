@@ -19,9 +19,10 @@ html, body {
    the wordmark) always wins. A plain `a:hover` here out-ranks a single class and
    turned a primary Button link's label the same color as its fill on hover.
    Hover is limited to devices that can hover, so a tap never leaves a sticky
-   hover color; press shows the same color shift. */
+   hover color; press shows the same color shift, with the underline, and no
+   transition on the way in. */
 :where(a) { color: var(--link); text-decoration: none; }
-:where(a:active) { color: var(--link-hover); }
+:where(a:active) { color: var(--link-hover); text-decoration: underline; }
 @media (hover: hover) {
   :where(a:hover) { color: var(--link-hover); text-decoration: underline; }
 }
@@ -45,3 +46,8 @@ input:focus-visible,
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
+
+/* The one exception: <body id="top" tabindex="-1">, focused by script after a
+   scripted "Back to top". It is not in the tab order and not a control, so a ring
+   around the whole page would be noise. Never extend this to elements people operate. */
+body[tabindex="-1"]:focus-visible { outline: none; }

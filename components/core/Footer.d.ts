@@ -14,6 +14,8 @@ export interface FooterProps {
   owner?: string;
   /** @default the current year */
   year?: number;
+  /** Adds a static "Back to top" link (href="#top") as the last link. No script. Use on long pages. @default false */
+  backToTop?: boolean;
 }
 
 /**

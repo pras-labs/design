@@ -10,9 +10,7 @@
 <style>
   body { margin: 0; }
   /* Widths: bp-sm 480px, bp-md 748px, bp-lg 1104px (literal px, CSS cannot read custom properties in @media). */
-  .shell { max-width: var(--page-max-width); margin: 0 auto; padding: 0 var(--space-5); }
-  @media (max-width: 479.98px) { .shell { padding: 0 var(--space-4); } }
-  @media (min-width: 1104px) { .shell { padding: 0 var(--space-6); } }
+  .shell { max-width: var(--page-max-width); margin: 0 auto; padding: 0 var(--page-padding); }
   .sample-note { max-width: var(--content-width); margin: 0 auto var(--space-8); padding-top: var(--space-4); border-top: 1px solid var(--border-hairline); font-family: var(--font-heading); font-size: var(--text-xs); color: var(--text-secondary); }
   .btn { font-family: var(--font-heading); font-weight: 600; border-radius: var(--radius-sm); border: 1px solid transparent; padding: 0 18px; min-height: var(--touch-target); align-items: center; font-size: var(--text-sm); text-decoration: none; display: inline-flex; }
   .btn-primary { background: var(--accent); color: var(--text-on-accent); }
@@ -51,7 +49,7 @@
 </style>
 <noscript><style>.pl-theme-toggle{display:none}</style></noscript>
 </head>
-<body>
+<body id="top">
 <div class="shell">
   <nav class="pl-nav" aria-label="Main">
     <a class="pl-wordmark" href="#"><span>~/</span>pras-labs</a>
