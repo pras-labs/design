@@ -3,10 +3,12 @@ import { getTheme, setTheme } from './theme.js';
 
 /**
  * Nav: minimal top navigation. Stays out of the way of the reading column.
- * Three links, the wordmark and one text button that switches the theme (the last item).
+ * The wordmark, a search field, three links (Writing, About, Consulting) and one text button that switches the
+ * theme (the last item in the link group). The field sits beside the wordmark and is narrow until it has focus. While it has focus it
+ * grows and the link group is hidden (core.css, .pl-nav:has(...)); Escape or leaving the field brings it back.
  * Static, never sticky or fixed. If the row does not fit, the links wrap under the wordmark.
  */
-export function Nav({ active = 'writing' }) {
+export function Nav({ active = 'writing', query = '' }) {
   const items = [
     { key: 'writing', label: 'Writing', href: '/' },
     { key: 'about', label: 'About', href: '/about' },
@@ -23,6 +25,19 @@ export function Nav({ active = 'writing' }) {
   return (
     <nav className="pl-nav" aria-label="Main">
       <a href="/" className="pl-wordmark"><span>~/</span>pras-labs</a>
+      <form className="pl-search" role="search" action="/search" method="get">
+        <input
+          className="pl-field"
+          type="search"
+          name="q"
+          defaultValue={query}
+          placeholder="Search"
+          aria-label="Search the writing"
+          autoComplete="off"
+          enterKeyHint="search"
+          onKeyDown={(e) => { if (e.key === 'Escape') e.currentTarget.blur(); }}
+        />
+      </form>
       <div className="pl-nav-links">
         {items.map((it) => (
           <a key={it.key} href={it.href} className="pl-nav-item" aria-current={active === it.key ? 'page' : undefined}>

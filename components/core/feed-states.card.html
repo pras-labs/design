@@ -1,4 +1,4 @@
-<!-- @dsCard group="Components" viewport="700x520" subtitle="Loading, empty, filtered, error" name="Post feed states" -->
+<!-- @dsCard group="Components" viewport="700x700" subtitle="Loading, empty, filtered, error, search" name="Post feed states" -->
 <html><head><link rel="stylesheet" href="../../styles.css"><style>
 body{background:var(--bg);padding:24px;color:var(--text-primary)}
 .state{padding:var(--space-6) 0;border-bottom:1px solid var(--border-hairline);font-family:var(--font-heading);font-size:var(--text-sm);color:var(--text-primary)}
@@ -15,4 +15,6 @@ body{background:var(--bg);padding:24px;color:var(--text-primary)}
 <div class="state"><p>No posts yet. New posts appear here when they are published.</p></div>
 <div class="state"><p>No posts tagged #gitops. Clear the filter to see all writing.</p><button class="btn btn-ghost" type="button">Clear filter</button></div>
 <div class="state error"><p>Could not load posts. Check your connection, then try again.</p><button class="btn btn-secondary" type="button">Try again</button></div>
+<div class="state"><p>Type a word or a tag in the search field.</p></div>
+<div class="state" role="status"><p>No posts match "kuberentes". Check the spelling or try a shorter word.</p><button class="btn btn-ghost" type="button">Clear search</button></div>
 </body></html>

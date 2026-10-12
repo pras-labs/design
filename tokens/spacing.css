@@ -19,7 +19,9 @@
      values: repeat the literal px in the query and name the token in a comment.
        bp-sm  480px  chosen: below it, page padding space-4, Nav gap space-3,
                      section spacing one register down. With the real fonts the
-                     Nav row needs about 428px below it and 456px above it.
+                     Nav row (wordmark, search field, three links and the theme
+                     button) is one line from 609px, two rows from 332px, three
+                     rows below that.
        bp-md  748px  content-width + 2 x space-5. Below it the column fills the width.
        bp-lg 1104px  content-width-wide + 2 x space-6. From it wide content is centered. */
   --bp-sm: 480px;

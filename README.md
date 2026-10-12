@@ -26,6 +26,7 @@ but human. Terminal-meets-editorial. Not flashy.
 - `guidelines/`: foundation specimen cards (Colors, Type, Spacing, Brand)
 - `ui_kits/blog-post/`: full article page (primary surface)
 - `ui_kits/homepage/`: hero + writing feed
+- `ui_kits/search/`: search form + results
 - `ui_kits/about-consulting/`: bio, services, consulting CTA
 - `SKILL.md`: portable skill file for Claude Code
 
@@ -83,7 +84,21 @@ Mobile is a designed state, not the desktop layout squeezed. The system is one c
 - **Tap targets.** Every interactive element has a hit area of at least `touch-target` (44px) in both directions, using padding or a pseudo-element when the visual is smaller. Adjacent hit areas may touch but never overlap. Links inside running prose are exempt.
 - **Overflow.** The page never scrolls sideways, checked at 320px. `CodeBlock` and tables scroll inside their own box (`max-width: 100%`), and that box is keyboard-focusable. Titles, filenames and long tokens use `overflow-wrap: anywhere`. Images are `max-width: 100%`. Never put `overflow: hidden` on a container that holds text.
 - **No hover-only interactions.** Nothing in this system is revealed or opened by hover. Every hover color shift has the same shift on press.
-- **Nav.** Three links, a wordmark and a theme button, no menu. It is static, never sticky or fixed, so it cannot cover content. If the row does not fit, the links wrap onto a second row under the wordmark, and the link group wraps too, so a wider font setting or the longer "Theme: Light" label never pushes it past the page edge. Measured with the real fonts, the row is one line from 428px up and two rows below that. A hamburger would hide three links to save one row.
+- **Nav.** The wordmark, a search field, three links and a theme button, no menu. It is static, never sticky or fixed, so it cannot cover content. If the row does not fit, the items wrap onto a second row under the wordmark, and the link group wraps too, so a wider font setting or the longer "Theme: Light" label never pushes it past the page edge. Measured with the real fonts (and the longer "Theme: Light" label): one row from 609px up, two rows from 332px to 608px (wordmark and field on the first row, links and theme on the second), three rows below 332px. A hamburger would hide three links to save one row.
+
+## Search
+
+Search is a field in the Nav, beside the wordmark, and a results page at `/search`. The earlier rule "no dropdowns, no search bar in v1" is replaced for search only; dropdowns are still out. The reason for the change: a reader looking for one post on a long-running blog has no other way to find it.
+
+- **At rest.** A narrow field (`7rem` wide, 44px tall) with the placeholder "Search", right after the wordmark. It is before the links in the DOM as well as on screen, so tab order matches what you see.
+- **On focus.** The field grows to the right, up to `26rem`. From 609px up, where the Nav fits one row, the link group (links and theme button) is hidden while the field has focus, so the wordmark and the field are all that is left, and the Nav keeps its height. Escape or leaving the field brings the links back. Below 609px the links stay and only the field grows (it fills the rest of the wordmark's row). Hiding them there would shrink the Nav by a row and shift the page up, and the first tap on a link below would then land in the wrong place, because focus leaves the field on the press and the Nav grows back before the finger lifts (reproduced at 375px). 609px is a measured Nav width, not a breakpoint token.
+- **No animation.** The change is instant. Width is not one of the properties this system lets move (color and border-color only); animating it would be an explicit exception to make later, with `prefers-reduced-motion` honored. Without `:has()` support the field stays narrow and the links stay.
+- **Form.** A `<form role="search" method="get" action="/search">` with one `<input type="search" name="q">`. The query lives in the URL (`/search?q=gitops`), so a result page can be linked, bookmarked and reached with Back. Enter submits. No search-as-you-type, no suggestion dropdown, nothing that opens on hover or typing.
+- **Name.** The field has `aria-label="Search the writing"` and the visible placeholder "Search", which is contained in the name. The placeholder is `text-secondary` and disappears when typing starts, so the Nav field has no persistent visible label. That is a trade made for the narrow field; anything larger than the Nav field gets a visible `<label>`.
+- **Field.** `.pl-field` in `core.css`: at least 44px tall, `surface` fill, 1px `border-control` boundary (3:1 or better), `text-base` text (never below 16px, so mobile browsers do not zoom on focus). Focus shows the shared `focus-ring` outline plus an `accent` border, so focus never rests on the outline alone. Radius `radius-sm`.
+- **Results page.** An `h1` ("Search results"), then the count in `text-secondary` as `role="status"` so it is announced after a search (`2 posts match "gitops"`), then `PostCard` rows with the same footprint as the feed. Result titles are `h2`. The Nav on this page uses `active={null}` (none of the three links is current) and `query` to put the search text back in the field. No pagination until a result set is long enough to need it.
+- **States.** Empty query, no results and error are written under States. Loading reuses "Loading posts".
+- **Preview.** `ui_kits/search/` shows the results state with a sample query and sample posts. The text in it is a placeholder.
 
 ## States
 
@@ -99,7 +114,10 @@ Every interactive element has these states: default, hover (color shift only), p
 - **Post feed, error.** "Could not load posts. Check your connection, then try again." in `danger`, with a secondary `Button` labeled "Try again".
 - **State messages.** Set in the `heading` family at `label` size, left-aligned in the reading column, with `space-6` vertical padding and a `border-hairline` bottom rule, the same footprint as a `PostCard` row. Say what happened, then what to do. No exclamation marks, no emoji, no apology.
 - **AuthorBio, headshot fails to load.** Show the empty `surface-2` disc with the `accent-warm-border` ring. The name and role stay.
-- **Forms.** None exist yet. When one is added: errors are text first and tied to their field, and a focused field scrolls into view above the on-screen keyboard.
+- **Search, empty query.** The page shows "Type a word or a tag in the search field." and no results list. The empty field is the one in the Nav.
+- **Search, no results.** `role="status"` text: `No posts match "kuberentes". Check the spelling or try a shorter word.` (the query is a sample) with a ghost `Button` labeled "Clear search". Never "Oops", never a blank page.
+- **Search, error.** Reuses the post feed error: "Could not load posts. Check your connection, then try again." with "Try again". The field keeps what the reader typed.
+- **Forms.** The only form is the Nav search (see Search above). When another is added: errors are text first and tied to their field, and a focused field scrolls into view above the on-screen keyboard.
 
 ## Fonts
 
