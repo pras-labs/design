@@ -33,6 +33,7 @@
   .post .tag { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); }
 
 </style>
+<noscript><style>.pl-theme-toggle{display:none}</style></noscript>
 </head>
 <body>
 <div class="shell">
@@ -63,12 +64,20 @@
         <div class="meta"><span class="date">Jun 12, 2026 · 14 min read</span><span class="tag">#platform-engineering</span></div>
       </a>
     </div>
-  </main>
-  <footer class="sample-note">Sample content for layout only. The query, the posts, dates, read times and tags above are placeholders, not published articles.</footer>
+    <p class="sample-note">Sample content for layout only. The query, the posts, dates, read times and tags above are placeholders, not published articles.</p>
+</main>
+  <footer class="pl-footer">
+    <nav class="pl-footer-links" aria-label="Footer">
+      <a class="pl-nav-item" href="#"><span>Archive</span></a>
+      <a class="pl-nav-item" href="#"><span>Tags</span></a>
+      <a class="pl-nav-item" href="#"><span>RSS</span></a>
+    </nav>
+    <p class="pl-footer-copy">&copy; 2026 Prasetiyo Hadi Purwoko</p>
+  </footer>
 </div>
 <script>
 (function () {
-  document.querySelectorAll('.pl-search .pl-field').forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Escape') i.blur(); }); });
+  document.querySelectorAll('.pl-search .pl-field').forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); i.blur(); } }); });
   var b = document.getElementById('theme-toggle');
   function cur() {
     var d = document.documentElement.getAttribute('data-theme');

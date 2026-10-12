@@ -53,6 +53,7 @@
   .contact a { display: inline-flex; align-items: center; min-height: var(--touch-target); }
   .contact { margin-top: var(--space-6); font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-secondary); overflow-wrap: anywhere; }
 </style>
+<noscript><style>.pl-theme-toggle{display:none}</style></noscript>
 </head>
 <body>
 <div class="shell">
@@ -103,12 +104,20 @@
     </div>
 
     <div class="contact">contact: <a href="#">hello@pras.my.id</a> · Bandung, Indonesia (UTC+7)</div>
-  </main>
-  <footer class="sample-note">Sample content for layout only. The background, availability and response-time statements above are placeholders, not current facts. Replace them with wording that is true on the day you publish.</footer>
+    <p class="sample-note">Sample content for layout only. The background, availability and response-time statements above are placeholders, not current facts. Replace them with wording that is true on the day you publish.</p>
+</main>
+  <footer class="pl-footer">
+    <nav class="pl-footer-links" aria-label="Footer">
+      <a class="pl-nav-item" href="#"><span>Archive</span></a>
+      <a class="pl-nav-item" href="#"><span>Tags</span></a>
+      <a class="pl-nav-item" href="#"><span>RSS</span></a>
+    </nav>
+    <p class="pl-footer-copy">&copy; 2026 Prasetiyo Hadi Purwoko</p>
+  </footer>
 </div>
 <script>
 (function () {
-  document.querySelectorAll('.pl-search .pl-field').forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Escape') i.blur(); }); });
+  document.querySelectorAll('.pl-search .pl-field').forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); i.blur(); } }); });
   var b = document.getElementById('theme-toggle');
   function cur() {
     var d = document.documentElement.getAttribute('data-theme');
