@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * Button: primary CTA, secondary outline, and ghost text variants.
  * Terminal-adjacent: no gradients, no shadows on hover, just color + border shifts.
- * Variant colors and the hover/press shift live in core.css (inline styles cannot express :hover).
+ * Variant colors, the hover/press shift and the transition live in core.css (inline styles cannot express :hover, and an inline transition cannot be switched off on :active).
  *
  * Targets: md is 44px tall. sm is 32px tall with a 44px hit area (see core.css, [data-hit]).
  * States: disabled (aria-disabled, never navigates) and loading (label swaps to the
@@ -27,7 +27,6 @@ export function Button({
     borderWidth: 1,
     borderStyle: 'solid',
     cursor: 'pointer',
-    transition: 'background var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard)',
     textDecoration: 'none',
     ...sizes[size],
   };

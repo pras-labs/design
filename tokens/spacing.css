@@ -17,10 +17,10 @@
   /* Breakpoints sit where a layout rule changes, not at device widths.
      CSS cannot read custom properties inside @media, so these are documented
      values: repeat the literal px in the query and name the token in a comment.
-       bp-sm  480px  chosen: below it, page padding space-4, Nav gap space-3,
+       bp-sm  480px  chosen: below it, page padding space-4,
                      section spacing one register down. With the real fonts the
                      Nav row (wordmark, search field, three links and the theme
-                     button) is one line from 609px (core.css uses 616px), two rows from 332px, three
+                     button) is one line from 629px (core.css uses 640px), two rows from 356px, three
                      rows below that. That is this Nav's measurement, an example:
                      a site with other links measures its own.
        bp-md  748px  content-width + 2 x space-5. Below it the column fills the width.
@@ -28,6 +28,13 @@
   --bp-sm: 480px;
   --bp-md: 748px;
   --bp-lg: 1104px;
+
+  /* Horizontal padding of the page shell. The shell is the one element that carries
+     it: Nav, main and Footer sit inside and have no horizontal padding of their
+     own, so a max-width on them is a content width (1040px is the content box).
+     Wide content fits exactly at bp-lg: 1040 + 2 x space-6 = 1104. Read it as
+     padding: 0 var(--page-padding). */
+  --page-padding: var(--space-5);
 
   --touch-target: 44px;     /* minimum hit area, both directions */
 
@@ -42,3 +49,7 @@
   --duration-fast: 120ms;
   --duration-standard: 200ms;
 }
+
+/* Same breakpoints as the comment above: 480px is bp-sm, 1104px is bp-lg. */
+@media (max-width: 479.98px) { :root { --page-padding: var(--space-4); } }
+@media (min-width: 1104px) { :root { --page-padding: var(--space-6); } }
